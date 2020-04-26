@@ -261,7 +261,7 @@ void IG1App::motion(int x, int y) {
 		glm::dvec2 mp = mMouseCoord;
 		mMouseCoord = glm::dvec2(x, mWinH - y);
 		mp = mMouseCoord - mp;
-		mCamera->orbit(-mp.x , -mp.y);// sensitivity = 0.05	
+		mCamera->orbit(-mp.x*0.05 , -mp.y);// sensitivity = 0.05	
 		//mCamera->moveLR(mp.x * 0.05);
 		//mCamera->moveUD(mp.y * 0.05);
 		glutPostRedisplay();

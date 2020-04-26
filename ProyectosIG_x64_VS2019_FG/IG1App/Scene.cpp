@@ -88,26 +88,34 @@ void Scene::init()
 		Sphere* esfera = new Sphere(100.0);
 		gObjects.push_back(esfera);
 
-		Cylinder* cono = new Cylinder(50.0, 0, 100.0);
-		glm::dmat4 mAux = cono->modelMat();
-		mAux = translate(mAux, dvec3(0, 85, 0));
-		mAux = rotate(mAux, radians(-90.0), dvec3(1.0, 0, 0));
-		cono->setModelMat(mAux);
-		gObjects.push_back(cono);
+		Cylinder* cono1 = new Cylinder(15.0, 0, 30.0);
+		glm::dmat4 mAux = cono1->modelMat();
+		mAux = translate(mAux, dvec3(-20, 50, 70));
+		//mAux = rotate(mAux, radians(-90.0), dvec3(1.0, 0, 0));
+		cono1->setModelMat(mAux);
+		gObjects.push_back(cono1);
+
+		Cylinder* cono2 = new Cylinder(15.0, 0, 45.0);
+		glm::dmat4 mAuxC2 = cono2->modelMat();
+		mAuxC2 = translate(mAuxC2, dvec3(20, 50, 70));
+		//mAuxC2 = rotate(mAuxC2, radians(-90.0), dvec3(1.0, 0, 0));
+		cono2->setModelMat(mAuxC2);
+		gObjects.push_back(cono2);
+
 
 		Disk* disco = new Disk(50, 100, 50, 2);
 		glm::dmat4 mAuxDisk = disco->modelMat();
 		mAuxDisk = translate(mAuxDisk, dvec3(0, 75, 0));
 		mAuxDisk = rotate(mAuxDisk, radians(-90.0), dvec3(1.0, 0, 0));
 		disco->setModelMat(mAuxDisk);
-		gObjects.push_back(disco);
+		//gObjects.push_back(disco);
 
 		PartialDisk* partDisco = new PartialDisk(70, 90, 50, 2,90,180);
 		glm::dmat4 mAuxPartDisk = partDisco->modelMat();
 		mAuxPartDisk = translate(mAuxPartDisk, dvec3(0, 0, 60));
 		//mAuxDisk = rotate(mAuxPartDisk, radians(-90.0), dvec3(1.0, 0, 0));
 		partDisco->setModelMat(mAuxPartDisk);
-		gObjects.push_back(partDisco);
+		//gObjects.push_back(partDisco);
 	}
 	
 
