@@ -21,7 +21,7 @@ public:
 
 	Scene(const Scene& s) = delete;  // no copy constructor
 	Scene& operator=(const Scene& s) = delete;  // no copy assignment
-	int mId = 1;
+	int mId = 2;
 	void setState(int id);
 	void init();
 

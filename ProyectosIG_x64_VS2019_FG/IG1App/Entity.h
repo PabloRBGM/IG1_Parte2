@@ -135,4 +135,22 @@ protected:
 	GLUquadricObj* q;
 };
 
+class Sphere : public QuadricEntity {
+public:
+	Sphere(GLdouble rr); // r es el radio de la esfera
+	void render(glm::dmat4 const& modelViewMat) const;
+protected:
+	GLdouble r;
+};
+
+class Cylinder : public QuadricEntity {
+public:
+	Cylinder(GLdouble bR, GLdouble tR, GLdouble h); // r es el radio de la esfera
+	void render(glm::dmat4 const& modelViewMat) const;
+protected:
+	GLdouble bR;
+	GLdouble tR;
+	GLdouble h;
+};
+
 #endif //_H_Entities_H_
