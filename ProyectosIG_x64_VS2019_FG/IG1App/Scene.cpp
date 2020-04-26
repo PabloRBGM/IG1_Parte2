@@ -94,6 +94,20 @@ void Scene::init()
 		mAux = rotate(mAux, radians(-90.0), dvec3(1.0, 0, 0));
 		cono->setModelMat(mAux);
 		gObjects.push_back(cono);
+
+		Disk* disco = new Disk(50, 100, 50, 2);
+		glm::dmat4 mAuxDisk = disco->modelMat();
+		mAuxDisk = translate(mAuxDisk, dvec3(0, 75, 0));
+		mAuxDisk = rotate(mAuxDisk, radians(-90.0), dvec3(1.0, 0, 0));
+		disco->setModelMat(mAuxDisk);
+		gObjects.push_back(disco);
+
+		PartialDisk* partDisco = new PartialDisk(70, 90, 50, 2,90,180);
+		glm::dmat4 mAuxPartDisk = partDisco->modelMat();
+		mAuxPartDisk = translate(mAuxPartDisk, dvec3(0, 0, 60));
+		//mAuxDisk = rotate(mAuxPartDisk, radians(-90.0), dvec3(1.0, 0, 0));
+		partDisco->setModelMat(mAuxPartDisk);
+		gObjects.push_back(partDisco);
 	}
 	
 
