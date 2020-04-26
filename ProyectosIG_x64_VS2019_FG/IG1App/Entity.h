@@ -131,8 +131,11 @@ class QuadricEntity : public Abs_Entity {
 public:
 	QuadricEntity() { q = gluNewQuadric(); };
 	~QuadricEntity() { gluDeleteQuadric(q); };
+
+	void setColor(glm::fvec3 c) { color = c; }
 protected:
 	GLUquadricObj* q;
+	glm::fvec3 color = glm::fvec3(-1.0, -1.0, -1.0);	//sin color por defecto
 };
 class Disk : public QuadricEntity {
 public:
@@ -163,7 +166,7 @@ protected:
 
 class Cylinder : public QuadricEntity {
 public:
-	Cylinder(GLdouble bR, GLdouble tR, GLdouble h); // r es el radio de la esfera
+	Cylinder(GLdouble bR, GLdouble tR, GLdouble h);
 	void render(glm::dmat4 const& modelViewMat) const;
 protected:
 	GLdouble bR;
