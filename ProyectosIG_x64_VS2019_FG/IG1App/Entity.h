@@ -127,4 +127,12 @@ public:
 	virtual void update();
 };
 
+class QuadricEntity : public Abs_Entity {
+public:
+	QuadricEntity() { q = gluNewQuadric(); };
+	~QuadricEntity() { gluDeleteQuadric(q); };
+protected:
+	GLUquadricObj* q;
+};
+
 #endif //_H_Entities_H_

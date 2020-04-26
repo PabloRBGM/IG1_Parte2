@@ -82,7 +82,10 @@ void Scene::init()
 		auto g = new TrianguloRGB(40.0);
 		gObjects.push_back(g);
 	}
-	
+	else if (mId == 2) {
+		glClearColor(0.7, 0.8, 0.9, 0.0);
+
+	}
 	
 
 }
@@ -107,15 +110,12 @@ void Scene::free()
 		delete tel;  tel = nullptr;
 	}
 	translucentgObjects.clear();
-	//if (mId == 1) {
-		for (Texture* t : gTextures)
-		{
-			delete t;  t = nullptr;
-		}
-		gTextures.clear();
 
-
-	//}
+	for (Texture* t : gTextures)
+	{
+		delete t;  t = nullptr;
+	}
+	gTextures.clear();
 }
 //-------------------------------------------------------------------------
 void Scene::setGL() 
@@ -147,6 +147,8 @@ void Scene::resetGL()
 void Scene::render(Camera const& cam) const 
 {
 	cam.upload();
+	sceneDirLight(cam);
+
 	//Primero renderizamos opacos
 	for (Abs_Entity* el : gObjects)
 	{
@@ -166,4 +168,19 @@ void Scene::update() {
 	for (Abs_Entity* e : gObjects) {
 		e->update();
 	}
+}
+
+void Scene::sceneDirLight(Camera const& cam) const {
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glm::fvec4 posDir = { 1, 1, 1, 0 };
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixd(value_ptr(cam.viewMat()));
+	glLightfv(GL_LIGHT0, GL_POSITION, value_ptr(posDir));
+	glm::fvec4 ambient = { 0, 0, 0, 1 };
+	glm::fvec4 diffuse = { 1, 1, 1, 1 };
+	glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };
+	glLightfv(GL_LIGHT0, GL_AMBIENT, value_ptr(ambient));
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, value_ptr(diffuse));
+	glLightfv(GL_LIGHT0, GL_SPECULAR, value_ptr(specular));
 }
