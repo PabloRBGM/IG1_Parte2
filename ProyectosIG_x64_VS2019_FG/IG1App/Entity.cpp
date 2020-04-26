@@ -306,13 +306,13 @@ void Disk::render(glm::dmat4 const& modelViewMat) const
 {
 	dmat4 aMat = modelViewMat * mModelMat;
 	upload(aMat);
-	// Aquí se puede fijar el color de la esfera así:
+	// Aquï¿½ se puede fijar el color de la esfera asï¿½:
 	// glEnable(GL_COLOR_MATERIAL);
 	// glColor3f(...);
-	// Aquí se puede fijar el modo de dibujar la esfera:
+	// Aquï¿½ se puede fijar el modo de dibujar la esfera:
 	// gluQuadricDrawStyle(q, ...);
 	gluDisk(q, innerRadius_, outerRadius_, slices_, rings_);
-	// Aquí se debe recuperar el color:
+	// Aquï¿½ se debe recuperar el color:
 	// glColor3f(1.0, 1.0, 1.0);
 }
 
@@ -330,12 +330,50 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat) const
 {
 	dmat4 aMat = modelViewMat * mModelMat;
 	upload(aMat);
-	// Aquí se puede fijar el color de la esfera así:
+	// Aquï¿½ se puede fijar el color de la esfera asï¿½:
 	// glEnable(GL_COLOR_MATERIAL);
 	// glColor3f(...);
-	// Aquí se puede fijar el modo de dibujar la esfera:
+	// Aquï¿½ se puede fijar el modo de dibujar la esfera:
 	// gluQuadricDrawStyle(q, ...);
 	gluPartialDisk(q, innerRadius_, outerRadius_, slices_, rings_,startAngle_,sweepAngle_);
-	// Aquí se debe recuperar el color:
+	// Aquï¿½ se debe recuperar el color:
 	// glColor3f(1.0, 1.0, 1.0);
+}
+//Entidades cuadraticas
+Sphere::Sphere(GLdouble rr) { 
+	r = rr; 
+}
+
+void Sphere::render(glm::dmat4 const& modelViewMat) const {
+	dmat4 aMat = modelViewMat * mModelMat;
+	upload(aMat);
+	// Aquï¿½ se puede fijar el color de la esfera asï¿½:
+	glEnable(GL_COLOR_MATERIAL);
+	//Esfera roja
+	glColor3f(1.0, 0.0, 0.0);
+	// Aquï¿½ se puede fijar el modo de dibujar la esfera:
+	gluQuadricDrawStyle(q, GLU_FILL);
+	gluSphere(q, r, 50, 50);
+	// Aquï¿½ se debe recuperar el color:
+	glColor3f(1.0, 1.0, 1.0);
+}
+
+Cylinder::Cylinder(GLdouble baseR, GLdouble topR, GLdouble height) {
+	bR = baseR;
+	tR = topR;
+	h = height;
+}
+
+void Cylinder::render(glm::dmat4 const& modelViewMat) const {
+	dmat4 aMat = modelViewMat * mModelMat;
+	upload(aMat);
+	// Aquï¿½ se puede fijar el color de la esfera asï¿½:
+	glEnable(GL_COLOR_MATERIAL);
+	//Cilindro azul
+	glColor3f(0.0, 0.0, 1.0);
+	// Aquï¿½ se puede fijar el modo de dibujar la esfera:
+	gluQuadricDrawStyle(q, GLU_FILL);
+	gluCylinder(q, bR, tR, h, 50, 25);
+	// Aquï¿½ se debe recuperar el color:
+	glColor3f(1.0, 1.0, 1.0);
 }
