@@ -134,5 +134,22 @@ public:
 protected:
 	GLUquadricObj* q;
 };
-
+class Disk : public QuadricEntity {
+public:
+	Disk(GLdouble innerRadius, GLdouble outerRadius, int slices, int rings);
+	void render(glm::dmat4 const& modelViewMat) const;
+protected:
+	GLdouble innerRadius_, outerRadius_;
+	int slices_, rings_;
+};
+class PartialDisk : public QuadricEntity {
+public:
+	PartialDisk(GLdouble innerRadius, GLdouble outerRadius, int slices, int rings,
+		GLdouble startAngle, GLdouble sweepAngle);
+	void render(glm::dmat4 const& modelViewMat) const;
+protected:
+	GLdouble innerRadius_, outerRadius_;
+	int slices_, rings_;
+	GLdouble startAngle_, sweepAngle_;
+};
 #endif //_H_Entities_H_
