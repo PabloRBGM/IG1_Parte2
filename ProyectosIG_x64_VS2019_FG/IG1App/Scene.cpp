@@ -86,21 +86,24 @@ void Scene::init()
 		glClearColor(0.7, 0.8, 0.9, 0.0);
 
 		Sphere* esfera = new Sphere(100.0);
+		esfera->setColor({ 1.0,0.3,0.0 });
 		gObjects.push_back(esfera);
 
-		Cylinder* cono1 = new Cylinder(15.0, 0, 30.0);
-		glm::dmat4 mAux = cono1->modelMat();
-		mAux = translate(mAux, dvec3(-20, 50, 70));
+		Cylinder* conoIzq = new Cylinder(15.0, 0, 45.0);
+		glm::dmat4 mAux = conoIzq->modelMat();
+		mAux = translate(mAux, dvec3(-30, 30, 70));
 		//mAux = rotate(mAux, radians(-90.0), dvec3(1.0, 0, 0));
-		cono1->setModelMat(mAux);
-		gObjects.push_back(cono1);
+		conoIzq->setModelMat(mAux);
+		conoIzq->setColor({ 0.18,0.545,0.443 });
+		gObjects.push_back(conoIzq);
 
-		Cylinder* cono2 = new Cylinder(15.0, 0, 45.0);
-		glm::dmat4 mAuxC2 = cono2->modelMat();
-		mAuxC2 = translate(mAuxC2, dvec3(20, 50, 70));
+		Cylinder* conoDer = new Cylinder(15.0, 0, 45.0);
+		glm::dmat4 mAuxC2 = conoDer->modelMat();
+		mAuxC2 = translate(mAuxC2, dvec3(30, 30, 70));
 		//mAuxC2 = rotate(mAuxC2, radians(-90.0), dvec3(1.0, 0, 0));
-		cono2->setModelMat(mAuxC2);
-		gObjects.push_back(cono2);
+		conoDer->setModelMat(mAuxC2);
+		conoDer->setColor({ 0.0,0.0,1.0 });
+		gObjects.push_back(conoDer);
 
 
 		Disk* disco = new Disk(50, 100, 50, 2);
@@ -108,14 +111,16 @@ void Scene::init()
 		mAuxDisk = translate(mAuxDisk, dvec3(0, 75, 0));
 		mAuxDisk = rotate(mAuxDisk, radians(-90.0), dvec3(1.0, 0, 0));
 		disco->setModelMat(mAuxDisk);
-		//gObjects.push_back(disco);
+		disco->setColor({ 1.0,0.0,0.0 });
+		gObjects.push_back(disco);
 
 		PartialDisk* partDisco = new PartialDisk(70, 90, 50, 2,90,180);
 		glm::dmat4 mAuxPartDisk = partDisco->modelMat();
 		mAuxPartDisk = translate(mAuxPartDisk, dvec3(0, 0, 60));
 		//mAuxDisk = rotate(mAuxPartDisk, radians(-90.0), dvec3(1.0, 0, 0));
 		partDisco->setModelMat(mAuxPartDisk);
-		//gObjects.push_back(partDisco);
+		partDisco->setColor({ 0.0,1.0,0.0 });
+		gObjects.push_back(partDisco);
 	}
 	
 

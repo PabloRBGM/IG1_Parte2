@@ -135,7 +135,7 @@ public:
 	void setColor(glm::fvec3 c) { color = c; }
 protected:
 	GLUquadricObj* q;
-	glm::fvec3 color = glm::fvec3(-1.0, -1.0, -1.0);	//sin color por defecto
+	glm::fvec3 color = glm::fvec3(1.0, 1.0, 1.0);	//sin color por defecto
 };
 class Disk : public QuadricEntity {
 public:
