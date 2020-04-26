@@ -253,8 +253,8 @@ void IG1App::motion(int x, int y) {
 		mMouseCoord = glm::dvec2(x, mWinH - y);
 		mp = mMouseCoord - mp; // calculamos el desplazamiento realizado
 		//mCamera->orbit(mp.x * 0.05, mp.y);// sensitivity = 0.05	
-		mCamera->moveLR(mp.x * 0.05);
-		mCamera->moveUD(mp.y * 0.05);
+		mCamera->moveLR(mp.x);
+		mCamera->moveUD(mp.y);
 		glutPostRedisplay();
 	}
 	else if (mMouseButt == GLUT_RIGHT_BUTTON) {	//desplazamiento de la camara en mRight y mUpwards
