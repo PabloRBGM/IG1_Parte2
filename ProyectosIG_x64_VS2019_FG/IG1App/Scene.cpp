@@ -23,7 +23,6 @@ void Scene::init()
 		Cylinder* conoIzq = new Cylinder(15.0, 0, 45.0);
 		glm::dmat4 mAux = conoIzq->modelMat();
 		mAux = translate(mAux, dvec3(-30, 30, 70));
-		//mAux = rotate(mAux, radians(-90.0), dvec3(1.0, 0, 0));
 		conoIzq->setModelMat(mAux);
 		conoIzq->setColor({ 0.18,0.545,0.443 });
 		gObjects.push_back(conoIzq);
@@ -31,7 +30,6 @@ void Scene::init()
 		Cylinder* conoDer = new Cylinder(15.0, 0, 45.0);
 		glm::dmat4 mAuxC2 = conoDer->modelMat();
 		mAuxC2 = translate(mAuxC2, dvec3(30, 30, 70));
-		//mAuxC2 = rotate(mAuxC2, radians(-90.0), dvec3(1.0, 0, 0));
 		conoDer->setModelMat(mAuxC2);
 		conoDer->setColor({ 0.0,0.0,1.0 });
 		gObjects.push_back(conoDer);
@@ -48,7 +46,6 @@ void Scene::init()
 		PartialDisk* partDisco = new PartialDisk(70, 90, 50, 2, 90, 180);
 		glm::dmat4 mAuxPartDisk = partDisco->modelMat();
 		mAuxPartDisk = translate(mAuxPartDisk, dvec3(0, 0, 60));
-		//mAuxDisk = rotate(mAuxPartDisk, radians(-90.0), dvec3(1.0, 0, 0));
 		partDisco->setModelMat(mAuxPartDisk);
 		partDisco->setColor({ 0.0,1.0,0.0 });
 		gObjects.push_back(partDisco);
@@ -101,7 +98,7 @@ void Scene::setGL()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	/*glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.0);*/
-	if(mId == 1)glEnable(GL_TEXTURE_2D);  
+	/*if(mId == 1)*/glEnable(GL_TEXTURE_2D);  
 
 
 }
@@ -112,7 +109,7 @@ void Scene::resetGL()
 	glDisable(GL_DEPTH_TEST);  // disable Depth test 	
 	glDisable(GL_BLEND);
 	//glDisable(GL_ALPHA_TEST);
-	if (mId == 1)glDisable(GL_TEXTURE_2D);
+	/*if (mId == 1)*/glDisable(GL_TEXTURE_2D);
 
 }
 //-------------------------------------------------------------------------
