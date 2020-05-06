@@ -298,14 +298,35 @@ Mesh* Mesh::generaAnilloCuadrado()
 
 void IndexMesh::render() const
 {
-	
-	if (vIndices != nullptr) {
-		glEnableClientState(GL_INDEX_ARRAY);
-		glIndexPointer(GL_UNSIGNED_INT, 0, vIndices);
+	if (vVertices.size() > 0) {  // transfer data
+   // transfer the coordinates of the vertices
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(3, GL_DOUBLE, 0, vVertices.data());  // number of coordinates per vertex, type of each coordinate, stride, pointer 
+		if (vColors.size() > 0) { // transfer colors
+			glEnableClientState(GL_COLOR_ARRAY);
+			glColorPointer(4, GL_DOUBLE, 0, vColors.data());  // components number (rgba=4), type of each component, stride, pointer  
+		}
+		if (vTexCoords.size() > 0) {
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());
+		}
+		if (vNormals.size() > 0) {
+			glEnableClientState(GL_NORMAL_ARRAY);
+			glNormalPointer(GL_DOUBLE, 0, vNormals.data());
+		}
+		if (vIndices != nullptr) {
+			glEnableClientState(GL_INDEX_ARRAY);
+			glIndexPointer(GL_UNSIGNED_INT, 0, vIndices);
+		}
+
+		draw();
+
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
+		glDisableClientState(GL_INDEX_ARRAY);
 	}
-	 
-	draw();
-	glDisableClientState(GL_INDEX_ARRAY);
 }
 
 void IndexMesh::draw() const
