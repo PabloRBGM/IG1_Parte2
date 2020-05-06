@@ -49,6 +49,21 @@ protected:
 
 	virtual void draw() const;
 };
+
+class IndexMesh : public Mesh {
+
+
+public:
+	IndexMesh() { mPrimitive = GL_TRIANGLES; }
+	~IndexMesh() { delete[] vIndices; }
+	virtual void render() const;
+	virtual void draw() const;
+	static IndexMesh* generaIndexCuboConTapas(GLdouble l);
+
+protected:
+	GLuint* vIndices = nullptr; // tabla de índices
+	GLuint nNumIndices = 0;
+};
 //-------------------------------------------------------------------------
 
 #endif //_H_Scene_H_

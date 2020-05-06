@@ -396,3 +396,21 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 
 	}
 }
+
+EntityWithIndexMesh::EntityWithIndexMesh()
+{
+	mMesh = IndexMesh::generaIndexCuboConTapas(10.0);
+}
+
+void EntityWithIndexMesh::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+
+		upload(aMat);
+
+
+		mMesh->render();
+
+	}
+}

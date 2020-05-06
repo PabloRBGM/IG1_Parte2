@@ -179,4 +179,10 @@ public:
 	explicit AnilloCuadrado();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
+
+class EntityWithIndexMesh :public Abs_Entity {
+public:
+	explicit EntityWithIndexMesh();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
 #endif //_H_Entities_H_
