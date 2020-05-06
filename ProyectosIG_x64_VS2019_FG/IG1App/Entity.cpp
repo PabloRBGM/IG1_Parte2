@@ -391,7 +391,7 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 
 		upload(aMat);
 		glEnable(GL_COLOR_MATERIAL);
-		glColor3f(1.0,0.0,0.0);
+		//glColor3f(1.0,0.0,0.0);
 		mMesh->render();
 
 	}
