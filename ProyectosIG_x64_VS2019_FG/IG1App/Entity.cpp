@@ -377,3 +377,20 @@ void Cylinder::render(glm::dmat4 const& modelViewMat) const {
 	// Aqu� se debe recuperar el color:
 	glColor3f(1.0, 1.0, 1.0);
 }
+
+AnilloCuadrado::AnilloCuadrado()
+{
+	mMesh = Mesh::generaAnilloCuadrado();
+
+}
+
+void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+
+		upload(aMat);
+		mMesh->render();
+
+	}
+}

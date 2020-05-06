@@ -129,7 +129,7 @@ public:
 
 class QuadricEntity : public Abs_Entity {
 public:
-	QuadricEntity() { q = gluNewQuadric(); };
+	 QuadricEntity() { q = gluNewQuadric(); };
 	~QuadricEntity() { gluDeleteQuadric(q); };
 
 	void setColor(glm::fvec3 c) { color = c; }
@@ -139,7 +139,7 @@ protected:
 };
 class Disk : public QuadricEntity {
 public:
-	Disk(GLdouble innerRadius, GLdouble outerRadius, int slices, int rings);
+	explicit Disk(GLdouble innerRadius, GLdouble outerRadius, int slices, int rings);
 	void render(glm::dmat4 const& modelViewMat) const;
 protected:
 	GLdouble innerRadius_, outerRadius_;
@@ -147,7 +147,7 @@ protected:
 };
 class PartialDisk : public QuadricEntity {
 public:
-	PartialDisk(GLdouble innerRadius, GLdouble outerRadius, int slices, int rings,
+	explicit PartialDisk(GLdouble innerRadius, GLdouble outerRadius, int slices, int rings,
 		GLdouble startAngle, GLdouble sweepAngle);
 	void render(glm::dmat4 const& modelViewMat) const;
 protected:
@@ -158,7 +158,7 @@ protected:
 
 class Sphere : public QuadricEntity {
 public:
-	Sphere(GLdouble rr); // r es el radio de la esfera
+	explicit Sphere(GLdouble rr); // r es el radio de la esfera
 	void render(glm::dmat4 const& modelViewMat) const;
 protected:
 	GLdouble r;
@@ -166,7 +166,7 @@ protected:
 
 class Cylinder : public QuadricEntity {
 public:
-	Cylinder(GLdouble bR, GLdouble tR, GLdouble h);
+	explicit Cylinder(GLdouble bR, GLdouble tR, GLdouble h);
 	void render(glm::dmat4 const& modelViewMat) const;
 protected:
 	GLdouble bR;
@@ -174,4 +174,9 @@ protected:
 	GLdouble h;
 };
 
+class AnilloCuadrado : public Abs_Entity {
+public:
+	explicit AnilloCuadrado();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
 #endif //_H_Entities_H_

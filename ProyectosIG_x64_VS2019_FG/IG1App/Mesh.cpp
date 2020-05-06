@@ -8,7 +8,10 @@ using namespace glm;
 
 void Mesh::draw() const 
 {
-  glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
+    glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
+	//glBegin(GL_TRIANGLE_STRIP);
+	//for (int i = 0; i < 10; ++i) glArrayElement(i % 8);
+	//glEnd();
 }
 //-------------------------------------------------------------------------
 
@@ -26,6 +29,7 @@ void Mesh::render() const
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());
     }
+
 	draw();
 
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -241,3 +245,39 @@ Mesh* Mesh::generaCajaTexCor(GLdouble nl) {
 
     return mesh;
  }
+
+Mesh* Mesh::generaAnilloCuadrado()
+{
+	Mesh* mesh = new Mesh();
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+	mesh->mNumVertices = 10;
+	mesh->vVertices.reserve(mesh->mNumVertices);
+	mesh->vColors.reserve(mesh->mNumVertices);
+
+
+	mesh->vVertices = { 
+		{ 30.0, 30.0, 0.0 },
+		{ 10.0, 10.0, 0.0 },
+		{ 70.0, 30.0, 0.0 },
+		{ 90.0, 10.0, 0.0 },
+		{ 70.0, 70.0, 0.0 },
+		{ 90.0, 90.0, 0.0 },
+		{ 30.0, 70.0, 0.0 },
+		{ 10.0, 90.0, 0.0 },
+		{ 30.0, 30.0, 0.0 },
+		{ 10.0, 10.0, 0.0 }
+	};
+			mesh->vColors={ 
+		{0.0, 0.0, 0.0,1.0},
+		{1.0, 0.0, 0.0,1.0},
+		{0.0, 1.0, 0.0,1.0 },
+		{0.0, 0.0, 1.0,1.0},
+		{1.0, 1.0, 0.0,1.0},
+		{1.0, 0.0, 1.0,1.0},
+		{0.0, 1.0, 1.0,1.0},
+		{1.0, 0.0, 0.0,1.0},		{0.0, 0.0, 0.0,1.0},
+		{1.0, 0.0, 0.0,1.0}	};
+
+
+	return mesh;
+}

@@ -10,10 +10,11 @@ void Scene::init()
 { 
 	setGL();  // OpenGL settings
 	gObjects.push_back(new EjesRGB(400.0));
+	glClearColor(0.7, 0.8, 0.9, 0.0);
 	//-----------------------------------------------------------------------------------------------
 	//Escena 3D, Entidades Cuadricas
 	if (mId == 1) {
-		glClearColor(0.7, 0.8, 0.9, 0.0);
+		
 
 		Sphere* esfera = new Sphere(100.0);
 		esfera->setColor({ 1.0,0.3,0.0 });
@@ -44,7 +45,7 @@ void Scene::init()
 		disco->setColor({ 1.0,0.0,0.0 });
 		gObjects.push_back(disco);
 
-		PartialDisk* partDisco = new PartialDisk(70, 90, 50, 2,90,180);
+		PartialDisk* partDisco = new PartialDisk(70, 90, 50, 2, 90, 180);
 		glm::dmat4 mAuxPartDisk = partDisco->modelMat();
 		mAuxPartDisk = translate(mAuxPartDisk, dvec3(0, 0, 60));
 		//mAuxDisk = rotate(mAuxPartDisk, radians(-90.0), dvec3(1.0, 0, 0));
@@ -52,7 +53,10 @@ void Scene::init()
 		partDisco->setColor({ 0.0,1.0,0.0 });
 		gObjects.push_back(partDisco);
 	}
-	
+	else if (mId == 2) {
+		AnilloCuadrado* anillo = new AnilloCuadrado();
+		gObjects.push_back(anillo);
+	}
 
 }
 
