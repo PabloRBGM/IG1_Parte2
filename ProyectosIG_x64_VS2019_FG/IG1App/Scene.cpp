@@ -119,8 +119,9 @@ void Scene::resetGL()
 
 void Scene::render(Camera const& cam) const 
 {
-	cam.upload();
 	sceneDirLight(cam);
+	cam.upload();
+	//sceneDirLight(cam);
 
 	//Primero renderizamos opacos
 	for (Abs_Entity* el : gObjects)

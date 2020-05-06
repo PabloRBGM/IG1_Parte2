@@ -400,6 +400,7 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 EntityWithIndexMesh::EntityWithIndexMesh()
 {
 	mMesh = IndexMesh::generaIndexCuboConTapas(10.0);
+	static_cast<IndexMesh*>(mMesh)->buildNormalVectors();
 }
 
 void EntityWithIndexMesh::render(glm::dmat4 const& modelViewMat) const
@@ -409,8 +410,9 @@ void EntityWithIndexMesh::render(glm::dmat4 const& modelViewMat) const
 
 		upload(aMat);
 
-
+		//glEnable(GL_COLOR_MATERIAL);
 		mMesh->render();
+		//glDisable(GL_COLOR_MATERIAL);
 
 	}
 }

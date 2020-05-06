@@ -335,7 +335,7 @@ void IndexMesh::draw() const
 		GL_UNSIGNED_INT, vIndices);
 }
 
-IndexMesh* IndexMesh::generaIndexCuboConTapas(GLdouble ld)
+IndexMesh* IndexMesh::generaIndexCuboConTapas(GLdouble lda)
 {
 
 	IndexMesh* indexMesh = new IndexMesh();
@@ -343,56 +343,52 @@ IndexMesh* IndexMesh::generaIndexCuboConTapas(GLdouble ld)
 	indexMesh->mNumVertices = 8;
 	indexMesh->vVertices.reserve(indexMesh->mNumVertices);
 	indexMesh->vColors.reserve(indexMesh->mNumVertices);
-	indexMesh->vNormals.reserve(indexMesh->mNumVertices);
-
-	//mesh->vNormals.reserve(mesh->mNumVertices);
-	indexMesh->vVertices = { {ld , ld , -ld }, {ld , -ld , -ld }, {ld , -ld , ld }, {ld , ld , ld },
-   {-ld , ld , -ld }, {-ld , ld , ld }, {-ld , -ld , ld }, {-ld , -ld, -ld}};
+	indexMesh->vNormals.reserve(indexMesh->mNumVertices);   //Tamño igual al vector de vértices
+    GLdouble ld = lda / 2;
+	indexMesh->vVertices = { {-ld , ld , ld }, {-ld , -ld , ld }, {ld , ld , ld }, {ld , -ld , ld },
+   {ld , ld , -ld }, {ld , -ld , -ld }, {-ld , ld , -ld }, {-ld , -ld, -ld}};
 
 
 	for (int i = 0; i < indexMesh->mNumVertices; i++) {
 		indexMesh->vColors.emplace_back(1.0, 0.0, 0.0,1.0);
 	}
-	
+    //indexMesh->vNormals = indexMesh->vVertices;
+    //Construi
 	indexMesh->nNumIndices = 36;
 
 	indexMesh->vIndices = new GLuint[indexMesh->nNumIndices]{
-		0, 1, 2, 
-		2, 1, 3,
-		2, 3, 4,
-		4, 3, 5,
-		4, 5, 6,
-		6, 5, 7,
-		6, 7, 0,
-		0, 7, 1,
-		4, 6, 2,
-		2, 6, 0,
-		1, 7, 3,
-		3, 7, 5 };
-
-	dvec3 a= glm::normalize(glm::cross((indexMesh->vVertices[indexMesh->vIndices[0 + 2]] - indexMesh->vVertices[indexMesh->vIndices[0 + 1]]),
-		(indexMesh->vVertices[indexMesh->vIndices[0]] - indexMesh->vVertices[indexMesh->vIndices[0 + 1]])));
-	dvec3 c =indexMesh->vVertices[indexMesh->vIndices[1 + 2]];
-	dvec3 d= indexMesh->vVertices[indexMesh->vIndices[1 + 1]];
-
-	dvec3 e = indexMesh->vVertices[indexMesh->vIndices[1 ]];
-	dvec3 f = indexMesh->vVertices[indexMesh->vIndices[1 + 1]];
-	dvec3 g = cross((c - d), (e - f));
-	//g.x = 0;
-	dvec3 b = glm::normalize(g);
-
-	//n = (0, 0, 0);
-	//dvec3 n(0,0,0);
-	for (int i = 0; i < indexMesh->mNumVertices; i++) {
-		/*n= glm::normalize(glm::cross((indexMesh->vVertices[indexMesh->vIndices[i + 2]] - indexMesh->vVertices[indexMesh->vIndices[i + 1]]),
-			(indexMesh->vVertices[indexMesh->vIndices[i]] - indexMesh->vVertices[indexMesh->vIndices[i + 1]])));
-		indexMesh->vNormals.emplace_back(n);*/
-		//n=normalize(cross((v2-v1),(v0-v1)))
-		indexMesh->vNormals.emplace_back(glm::normalize(glm::cross((indexMesh->vVertices[indexMesh->vIndices[i + 2]] - indexMesh->vVertices[indexMesh->vIndices[i + 1]]),
-			(indexMesh->vVertices[indexMesh->vIndices[i]] - indexMesh->vVertices[indexMesh->vIndices[i + 1]]))));
-		
-
-	}
+		0, 1, 2,  2, 1, 3,
+		2, 3, 4,  4, 3, 5,
 	
+		6, 5, 7,  4, 5, 6,
+		6, 7, 0,  0, 7, 1,
+
+        4, 0, 2, 6, 0, 4,
+	    1, 7, 3,  3, 7, 5 
+    };
+
 	return indexMesh;
+}
+
+void IndexMesh::buildNormalVectors() {
+    //inicializar las componentes del vector de normales al vector 0
+    for (int i = 0; i < mNumVertices; i++) {
+        vNormals.emplace_back(dvec3(0, 0, 0));
+    }
+
+    for (int i = 0; i < nNumIndices; i += 3) {
+        glm::dvec3 n =
+            glm::cross(
+            (vVertices[vIndices[i + 2]] - vVertices[vIndices[i + 1]]),
+                (vVertices[vIndices[i]] - vVertices[vIndices[i + 1]]));
+        //sumamos a las normales del triangulo
+        for (int j = i; j < i + 3; j++) {
+            vNormals[vIndices[j]] += n;
+        }
+    }
+
+    //normalizamos el vector de normales
+    for (int i = 0; i < mNumVertices; i++) {
+        vNormals[i] = glm::normalize(vNormals[i]);
+    }
 }
