@@ -390,6 +390,8 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 
 		upload(aMat);
+
+
 		mMesh->render();
 
 	}

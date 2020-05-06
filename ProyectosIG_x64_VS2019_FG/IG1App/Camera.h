@@ -60,7 +60,7 @@ protected:
 	GLdouble mNearVal = 1, mFarVal = 10000;  // view volume
 	GLdouble mScaleFact = 1;   // scale factor
 	glm::dvec3 mRight, mUpward, mFront;		//axes attributes
-	GLdouble mAng = 0, mRadio = 1000;
+	GLdouble mAng = 0, mRadio = 500;
 	GLdouble Fovy = 90;
 	GLdouble AspectRatio = 16 / 9;
 

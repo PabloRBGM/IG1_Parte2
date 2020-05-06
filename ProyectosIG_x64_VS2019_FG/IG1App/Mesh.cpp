@@ -8,10 +8,13 @@ using namespace glm;
 
 void Mesh::draw() const 
 {
+
     glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
-	//glBegin(GL_TRIANGLE_STRIP);
-	//for (int i = 0; i < 10; ++i) glArrayElement(i % 8);
-	//glEnd();
+	/*unsigned int stripIndices[] =
+	{ 0, 1, 2, 3, 4, 5, 6, 7, 0, 1 };
+	glDrawElements(GL_TRIANGLE_STRIP, 10, GL_UNSIGNED_INT,
+		stripIndices);*/
+	
 }
 //-------------------------------------------------------------------------
 
@@ -29,12 +32,19 @@ void Mesh::render() const
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());
     }
+	if (vNormals.size() > 0) {
+		glEnableClientState(GL_NORMAL_ARRAY);
+		glNormalPointer(GL_DOUBLE, 0, vNormals.data());
+	}
+
 
 	draw();
 
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+
   }
 }
 //-------------------------------------------------------------------------
@@ -253,9 +263,9 @@ Mesh* Mesh::generaAnilloCuadrado()
 	mesh->mNumVertices = 10;
 	mesh->vVertices.reserve(mesh->mNumVertices);
 	mesh->vColors.reserve(mesh->mNumVertices);
+	mesh->vNormals.reserve(mesh->mNumVertices);
 
-
-	mesh->vVertices = { 
+	mesh->vVertices = {
 		{ 30.0, 30.0, 0.0 },
 		{ 10.0, 10.0, 0.0 },
 		{ 70.0, 30.0, 0.0 },
@@ -267,7 +277,7 @@ Mesh* Mesh::generaAnilloCuadrado()
 		{ 30.0, 30.0, 0.0 },
 		{ 10.0, 10.0, 0.0 }
 	};
-			mesh->vColors={ 
+	mesh->vColors = {
 		{0.0, 0.0, 0.0,1.0},
 		{1.0, 0.0, 0.0,1.0},
 		{0.0, 1.0, 0.0,1.0 },
@@ -278,6 +288,28 @@ Mesh* Mesh::generaAnilloCuadrado()
 		{1.0, 0.0, 0.0,1.0},		{0.0, 0.0, 0.0,1.0},
 		{1.0, 0.0, 0.0,1.0}	};
 
-
+	//al ser paralelo al eje XY todas las normales son el eje X
+	for (int i = 0; i < mesh->mNumVertices;i++) {
+		mesh->vNormals.emplace_back(0.0,0.0,1.0 );
+	}
+	
 	return mesh;
+}
+
+void IndexMesh::render() const
+{
+	
+	if (vIndices != nullptr) {
+		glEnableClientState(GL_INDEX_ARRAY);
+		glIndexPointer(GL_UNSIGNED_INT, 0, vIndices);
+	}
+	 
+	draw();
+	glDisableClientState(GL_INDEX_ARRAY);
+}
+
+void IndexMesh::draw() const
+{
+	glDrawElements(mPrimitive, nNumIndices,
+		GL_UNSIGNED_INT, vIndices);
 }

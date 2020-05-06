@@ -32,7 +32,7 @@ void Camera::setVM()
 
 void Camera::set2D() 
 {
-	mEye = dvec3(500, 0, 500);
+	mEye = dvec3(mRadio, 0, mRadio);
 	mLook = dvec3(0, 0, 0);
 	mUp = dvec3(0, 1, 0);
 	mAng = -45;
@@ -43,7 +43,7 @@ void Camera::set2D()
 void Camera::set3D() 
 {
 
-	mEye = dvec3(500, 500, 500);  
+	mEye = dvec3(mRadio, mRadio, mRadio);
 	mLook = dvec3(0, 10, 0);   
 	mUp = dvec3(0, 1, 0);
 	mAng = -45;
