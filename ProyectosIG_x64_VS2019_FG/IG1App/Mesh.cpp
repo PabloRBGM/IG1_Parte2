@@ -361,14 +361,14 @@ IndexMesh* IndexMesh::generaIndexCuboConTapas(GLdouble ld)
 	dvec3 b = glm::normalize(g);
 
 	//n = (0, 0, 0);
-	dvec3 n(0,0,0);
+	//dvec3 n(0,0,0);
 	for (int i = 0; i < indexMesh->mNumVertices; i++) {
-		n+= glm::normalize(glm::cross((indexMesh->vVertices[indexMesh->vIndices[i + 2]] - indexMesh->vVertices[indexMesh->vIndices[i + 1]]),
+		/*n= glm::normalize(glm::cross((indexMesh->vVertices[indexMesh->vIndices[i + 2]] - indexMesh->vVertices[indexMesh->vIndices[i + 1]]),
 			(indexMesh->vVertices[indexMesh->vIndices[i]] - indexMesh->vVertices[indexMesh->vIndices[i + 1]])));
-		indexMesh->vNormals.emplace_back(n);
+		indexMesh->vNormals.emplace_back(n);*/
 		//n=normalize(cross((v2-v1),(v0-v1)))
-		//indexMesh->vNormals.emplace_back(glm::normalize(glm::cross((indexMesh->vVertices[indexMesh->vIndices[i + 2]] - indexMesh->vVertices[indexMesh->vIndices[i + 1]]),
-		//	glm::normalize(indexMesh->vVertices[indexMesh->vIndices[i]] - indexMesh->vVertices[indexMesh->vIndices[i + 1]]))));
+		indexMesh->vNormals.emplace_back(glm::normalize(glm::cross((indexMesh->vVertices[indexMesh->vIndices[i + 2]] - indexMesh->vVertices[indexMesh->vIndices[i + 1]]),
+			(indexMesh->vVertices[indexMesh->vIndices[i]] - indexMesh->vVertices[indexMesh->vIndices[i + 1]]))));
 		
 
 	}
