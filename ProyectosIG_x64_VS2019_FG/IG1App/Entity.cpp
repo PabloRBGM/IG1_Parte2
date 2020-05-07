@@ -34,7 +34,9 @@ void EjesRGB::render(dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 		glLineWidth(2);
+		glEnable(GL_COLOR_MATERIAL);
 		mMesh->render();
+		glDisable(GL_COLOR_MATERIAL);
 		glLineWidth(1);
 	}
 }
@@ -314,6 +316,7 @@ void Disk::render(glm::dmat4 const& modelViewMat) const
 	gluDisk(q, innerRadius_, outerRadius_, slices_, rings_);
 	// Aqu� se debe recuperar el color:
 	glColor3f(1.0, 1.0, 1.0);
+	glDisable(GL_COLOR_MATERIAL);
 }
 
 PartialDisk::PartialDisk(GLdouble innerRadius, GLdouble outerRadius, int slices, int rings, GLdouble startAngle, GLdouble sweepAngle)
@@ -338,6 +341,7 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat) const
 	 gluPartialDisk(q, innerRadius_, outerRadius_, slices_, rings_,startAngle_,sweepAngle_);
 	// Aqu� se debe recuperar el color:
 	 glColor3f(1.0, 1.0, 1.0);
+	 glDisable(GL_COLOR_MATERIAL);
 }
 //Entidades cuadraticas
 Sphere::Sphere(GLdouble rr) {
@@ -356,6 +360,7 @@ void Sphere::render(glm::dmat4 const& modelViewMat) const {
 	gluSphere(q, r, 50, 50);
 	// Aqu� se debe recuperar el color:
 	glColor3f(1.0, 1.0, 1.0);
+	glDisable(GL_COLOR_MATERIAL);
 }
 
 Cylinder::Cylinder(GLdouble baseR, GLdouble topR, GLdouble height) {
@@ -376,6 +381,7 @@ void Cylinder::render(glm::dmat4 const& modelViewMat) const {
 	gluCylinder(q, bR, tR, h, 50, 25);
 	// Aqu� se debe recuperar el color:
 	glColor3f(1.0, 1.0, 1.0);
+	glDisable(GL_COLOR_MATERIAL);
 }
 
 AnilloCuadrado::AnilloCuadrado()
@@ -393,7 +399,7 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 		glEnable(GL_COLOR_MATERIAL);
 		//glColor3f(1.0,0.0,0.0);
 		mMesh->render();
-
+		glDisable(GL_COLOR_MATERIAL);
 	}
 }
 
@@ -413,7 +419,7 @@ void EntityWithIndexMesh::render(glm::dmat4 const& modelViewMat) const
 		//glColor3f(1.0, 0.0, 0.0);
 		//glEnable(GL_COLOR_MATERIAL);
 		mMesh->render();
-		//glDisable(GL_COLOR_MATERIAL);
+		glDisable(GL_COLOR_MATERIAL);
 
 	}
 }
