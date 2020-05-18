@@ -177,12 +177,39 @@ protected:
 class AnilloCuadrado : public Abs_Entity {
 public:
 	explicit AnilloCuadrado();
+	virtual ~AnilloCuadrado() {	delete mMesh; mMesh = nullptr; 
+}
+
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 
+
+
 class EntityWithIndexMesh :public Abs_Entity {
 public:
-	explicit EntityWithIndexMesh();
+	EntityWithIndexMesh() {};
+	virtual ~EntityWithIndexMesh() { delete mMesh; mMesh = nullptr; };
+
+	virtual void render(glm::dmat4 const& modelViewMat) const {};
+};
+
+class Cubo :public EntityWithIndexMesh {
+public:
+	explicit Cubo();
+	~Cubo() { };
+
 	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
+
+class CompoundEntity : public Abs_Entity {
+public:
+	explicit CompoundEntity();
+	virtual ~CompoundEntity();
+	virtual void render(glm::dmat4 const& modelViewMat)const;
+	void addEntity(Abs_Entity* ae) {
+		gObjects.push_back(ae);
+	}
+protected:
+	std::vector<Abs_Entity*> gObjects;
 };
 #endif //_H_Entities_H_

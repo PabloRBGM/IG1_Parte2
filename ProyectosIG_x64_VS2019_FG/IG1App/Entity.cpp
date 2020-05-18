@@ -402,7 +402,7 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 		glDisable(GL_COLOR_MATERIAL);
 	}
 }
-
+/*
 EntityWithIndexMesh::EntityWithIndexMesh()
 {
 	mMesh = IndexMesh::generaIndexCuboConTapas(100.0);
@@ -422,4 +422,51 @@ void EntityWithIndexMesh::render(glm::dmat4 const& modelViewMat) const
 		glDisable(GL_COLOR_MATERIAL);
 
 	}
+}*/
+
+Cubo::Cubo()
+{
+	mMesh = IndexMesh::generaIndexCuboConTapas(100.0);
+	static_cast<IndexMesh*>(mMesh)->buildNormalVectors();
 }
+
+void Cubo::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+
+		upload(aMat);
+		glEnable(GL_COLOR_MATERIAL);
+		//glColor3f(1.0, 0.0, 0.0);
+		//glEnable(GL_COLOR_MATERIAL);
+		mMesh->render();
+		glDisable(GL_COLOR_MATERIAL);
+
+	}
+}
+
+CompoundEntity::CompoundEntity()
+{
+}
+
+CompoundEntity::~CompoundEntity()
+{
+	for (Abs_Entity* el : gObjects)
+	{
+		delete el;  el = nullptr;
+	}
+	gObjects.clear();
+}
+
+void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
+{
+	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+
+	upload(aMat);
+	for (Abs_Entity* el : gObjects)
+	{
+		el->render(aMat);
+	}
+	
+}
+
