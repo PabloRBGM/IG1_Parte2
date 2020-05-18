@@ -402,7 +402,9 @@ MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil)
     MbR* mesh = new MbR(mm, nn, perfil);
     mesh->mPrimitive = GL_TRIANGLES;
     mesh->mNumVertices = mm * nn;
-    dvec3* vertices = new dvec3[mesh->mNumVertices];
+   // dvec3* vertices = new dvec3[mesh->mNumVertices];
+	std::vector<glm::dvec3> vertices;  // vertex array
+	//vertices
     for (int i = 0; i < nn; i++) {
         // Generar la muestra i-ésima de vértices
         GLdouble theta = i * 360 / nn;
@@ -413,12 +415,12 @@ MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil)
             int indice = i * mm + j;
             GLdouble x = c * perfil[j].x + s * perfil[j].z;
             GLdouble z = -s * perfil[j].x + c * perfil[j].z;
-            vertices[indice] = dvec3(x, perfil[j].y, z);
+            vertices.push_back(dvec3(x, perfil[j].y, z));
         }
     }
     //volcamos el vector auxiliar
     for (int i = 0; i < mesh->mNumVertices; i++){
-        mesh->vVertices[i] = vertices[i];
+        mesh->vVertices.push_back(vertices[i]);
     }
     mesh->nNumIndices = (mm * nn) / 4 * 6;  //vale
     for (int i = 0; i < nn; i++) {

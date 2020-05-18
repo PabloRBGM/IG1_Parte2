@@ -480,7 +480,7 @@ Cono::Cono(GLdouble h, GLdouble r, GLuint n) {
 	perfil[0] = dvec3(0.5, 0.0, 0.0);
 	perfil[1] = dvec3(r, 0.0, 0.0);
 	perfil[2] = dvec3(0.5, h, 0.0);
-	mMesh = new MbR(m, n, perfil);
+	mMesh =  MbR::generaIndexMeshByRevolution(m, n, perfil);
 }
 
 void Cono::render(glm::dmat4 const& modelViewMat) const
