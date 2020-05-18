@@ -59,7 +59,7 @@ void Scene::init()
 	}
 	else if (mId == 3) {
 		CompoundEntity* helices = new CompoundEntity();
-		gObjects.push_back(helices);
+		//gObjects.push_back(helices);
 
 		Cylinder* conoDer = new Cylinder(15.0, 10.0, 50.0);
 		glm::dmat4 mAuxC2 = conoDer->modelMat();
@@ -78,12 +78,31 @@ void Scene::init()
 
 		helices->addEntity(conoDer);
 		helices->addEntity(conoIzq);
+		//-----------------------------------------------------------------------
+		CompoundEntity* chasis = new CompoundEntity();
+		//gObjects.push_back(chasis);
 
-		/*CompoundEntity* chasis = new CompoundEntity();
-		gObjects.push_back(chasis);
-		CompoundEntity* avion = new CompoundEntity();	
-		gObjects.push_back(avion);*/
+		Sphere* esfera = new Sphere(100.0);
+		esfera->setColor({ 1.0, 0.0 ,0.0 });
 
+		chasis->addEntity(esfera);
+		chasis->addEntity(helices);
+		//---------------------------------------
+		CompoundEntity* avion = new CompoundEntity();
+		avion->addEntity(chasis);
+		Cubo* cubo = new Cubo();
+		glm::dmat4 mAuxCubo = cubo->modelMat();
+
+		//mAuxCubo = rotate(mAuxCubo, radians(270.0), dvec3(0, 1, 0));
+		mAuxCubo = scale(mAuxCubo, dvec3(3.5,0.2, 1.0));
+		cubo->setModelMat(mAuxCubo);
+		cubo->setmColor({ 0.0,1.0,0.0,1.0 });
+
+
+
+		avion->addEntity(cubo);
+		
+		gObjects.push_back(avion);
 
 	}
 
