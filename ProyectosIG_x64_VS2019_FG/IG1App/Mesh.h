@@ -67,6 +67,20 @@ protected:
 	GLuint nNumIndices = 0;
 
 };
+
+class MbR : public IndexMesh {
+
+
+public:
+	MbR(int nn, int mm, glm::dvec3* p) : n(nn), m(mm), perfil(p) {}
+	~MbR() { delete[] perfil; }
+	static MbR* generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil);
+protected:
+	int n = 0;
+	int m = 0;
+	glm::dvec3* perfil = nullptr;
+
+};
 //-------------------------------------------------------------------------
 
 #endif //_H_Scene_H_
