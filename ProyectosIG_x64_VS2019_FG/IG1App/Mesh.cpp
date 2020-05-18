@@ -354,7 +354,7 @@ IndexMesh* IndexMesh::generaIndexCuboConTapas(GLdouble lda)
 
 
 	for (int i = 0; i < indexMesh->mNumVertices; i++) {
-		indexMesh->vColors.emplace_back(indexMesh->colors[i]);
+		indexMesh->vColors.emplace_back(dvec4(0.0,1.0,0.0,1.0));
 	}
     //indexMesh->vNormals = indexMesh->vVertices;
     //Construi

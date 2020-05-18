@@ -189,7 +189,7 @@ class EntityWithIndexMesh :public Abs_Entity {
 public:
 	EntityWithIndexMesh() {};
 	virtual ~EntityWithIndexMesh() { delete mMesh; mMesh = nullptr; };
-
+	//void setColor(glm::dvec4 color);
 	virtual void render(glm::dmat4 const& modelViewMat) const {};
 };
 

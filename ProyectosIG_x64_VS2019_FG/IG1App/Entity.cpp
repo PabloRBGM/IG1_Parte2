@@ -403,14 +403,15 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 		glDisable(GL_COLOR_MATERIAL);
 	}
 }
-/*
-EntityWithIndexMesh::EntityWithIndexMesh()
-{
-	mMesh = IndexMesh::generaIndexCuboConTapas(100.0);
-	static_cast<IndexMesh*>(mMesh)->buildNormalVectors();
-}
 
-void EntityWithIndexMesh::render(glm::dmat4 const& modelViewMat) const
+//void EntityWithIndexMesh::setColor(glm::dvec4 color)
+//{
+//	for (int i = 0; i < mMesh->colors->size(); i++) {
+//		mMesh->colors. = color;	
+//	}
+//}
+
+/*void EntityWithIndexMesh::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
@@ -438,7 +439,7 @@ void Cubo::render(glm::dmat4 const& modelViewMat) const
 
 		upload(aMat);
 		glEnable(GL_COLOR_MATERIAL);
-		//glColor3f(1.0, 0.0, 0.0);
+		glColor3d(mColor.r, mColor.g, mColor.b);
 		//glEnable(GL_COLOR_MATERIAL);
 		mMesh->render();
 		glDisable(GL_COLOR_MATERIAL);
