@@ -388,12 +388,13 @@ void IndexMesh::buildNormalVectors() {
     for (int i = 0; i < mNumVertices; i++) {
         vNormals[i] = glm::normalize(vNormals[i]);
     }
+    
 }
 
 MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil)
 {
     MbR* mesh = new MbR(mm, nn, perfil);
-    mesh->mPrimitive = GL_LINE_STRIP;
+    mesh->mPrimitive = GL_TRIANGLES;
     mesh->mNumVertices = mm * nn;
 	std::vector<glm::dvec3> vertices;  // vertex array
     vertices.reserve(mesh->mNumVertices);
@@ -416,7 +417,7 @@ MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil)
     for (int i = 0; i < mesh->mNumVertices; i++){
         mesh->vVertices.emplace_back(vertices[i]);
     }
-    mesh->nNumIndices = (mm)*(nn - 1) * 6;            
+    mesh->nNumIndices = (mm - 1)*(nn ) * 6;
     mesh->vIndices = new GLuint[mesh->nNumIndices];
     int indiceMayor = 0;
     for (int i = 0; i < nn; i++) {

@@ -112,7 +112,7 @@ void Scene::init()
 		mAuxC1 = translate(mAuxC1, dvec3(0, 150, 0));
 		cono->setModelMat(mAuxC1);
 		gObjects.push_back(cono);*/
-		Esfera* esfera = new Esfera(100.0, 4, 2);
+		Esfera* esfera = new Esfera(100.0, 15, 4);
 		esfera->setmColor(dvec4(0.0, 0.0, 1.0, 1.0));
 		gObjects.push_back(esfera);
 	}
