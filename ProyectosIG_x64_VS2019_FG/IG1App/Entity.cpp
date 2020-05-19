@@ -2,6 +2,7 @@
 
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
+#include <iostream>
 using namespace glm;
 
 //-------------------------------------------------------------------------
@@ -494,6 +495,41 @@ void Cono::render(glm::dmat4 const& modelViewMat) const
 		//glEnable(GL_COLOR_MATERIAL);
 		mMesh->render();
 		glDisable(GL_COLOR_MATERIAL);
+
+	}
+}
+
+Esfera::Esfera(GLdouble r, GLuint p, GLuint m) {
+	// h=altura del cono, r=radio de la base
+	// n=número de muestras, m=número de puntos del perfil
+	dvec3* perfil = new dvec3[p];
+	double angle = -90;
+	for (int i = 0; i < p ; i++) {
+		
+		perfil[i] = dvec3(r * cos(radians(angle)), r * sin(radians(angle)), 0.0);
+		std::cout << perfil[i].x << "  " << perfil[i].y << "  " << perfil[i].z <<std::endl ;
+		angle += 180 / (p - 1);
+	}
+	//perfil[0].x += 0.5;
+	//perfil[p - 1].x += 0.5;
+	mMesh = MbR::generaIndexMeshByRevolution(p, m, perfil);
+}
+
+void Esfera::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+
+		upload(aMat);
+		glEnable(GL_COLOR_MATERIAL);
+		glLineWidth(3);
+
+		glColor3d(mColor.r, mColor.g, mColor.b);
+		//glEnable(GL_COLOR_MATERIAL);
+		mMesh->render();
+		glDisable(GL_COLOR_MATERIAL);
+		glLineWidth(1);
+
 
 	}
 }

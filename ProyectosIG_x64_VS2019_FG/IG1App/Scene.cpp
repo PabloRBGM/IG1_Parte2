@@ -54,6 +54,7 @@ void Scene::init()
 		//AnilloCuadrado* anillo = new AnilloCuadrado();
 		//gObjects.push_back(anillo);
 		EntityWithIndexMesh* cubo = new Cubo();
+		cubo->setmColor(dvec4(1.0, 0.0, 0.0, 1.0));
 		gObjects.push_back(cubo);
 
 	}
@@ -95,10 +96,8 @@ void Scene::init()
 
 		////mAuxCubo = rotate(mAuxCubo, radians(270.0), dvec3(0, 1, 0));
 		//mAuxCubo = scale(mAuxCubo, dvec3(3.5,0.3, 1.5));
-		////cubo->setColor(dvec4(0.0, 1.0, 0.0, 1.0));
-
 		//cubo->setModelMat(mAuxCubo);
-		////cubo->setmColor({ 0.0,1.0,0.0,1.0 });
+		//cubo->setmColor({ 0.0,1.0,0.0,1.0 });
 
 
 
@@ -106,8 +105,16 @@ void Scene::init()
 		//
 		//gObjects.push_back(avion);
 
-		Cono* cono = new Cono(10.0, 5.0, 10);
-		gObjects.push_back(cono);
+		/*Cono* cono = new Cono(100.0, 50.0, 3);
+		cono->setmColor(dvec4(0.0, 0.0, 1.0, 1.0));
+		glm::dmat4 mAuxC1 = cono->modelMat();
+
+		mAuxC1 = translate(mAuxC1, dvec3(0, 150, 0));
+		cono->setModelMat(mAuxC1);
+		gObjects.push_back(cono);*/
+		Esfera* esfera = new Esfera(100.0, 4, 2);
+		esfera->setmColor(dvec4(0.0, 0.0, 1.0, 1.0));
+		gObjects.push_back(esfera);
 	}
 
 }

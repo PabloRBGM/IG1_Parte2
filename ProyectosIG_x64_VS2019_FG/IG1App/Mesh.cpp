@@ -346,18 +346,11 @@ IndexMesh* IndexMesh::generaIndexCuboConTapas(GLdouble lda)
 	indexMesh->mPrimitive = GL_TRIANGLES;
 	indexMesh->mNumVertices = 8;
 	indexMesh->vVertices.reserve(indexMesh->mNumVertices);
-	indexMesh->vColors.reserve(indexMesh->mNumVertices);
-	indexMesh->vNormals.reserve(indexMesh->mNumVertices);   //Tamño igual al vector de vértices
+	indexMesh->vNormals.reserve(indexMesh->mNumVertices);   //Tamaño igual al vector de vértices
     GLdouble ld = lda / 2;
 	indexMesh->vVertices = { {-ld , ld , ld }, {-ld , -ld , ld }, {ld , ld , ld }, {ld , -ld , ld },
    {ld , ld , -ld }, {ld , -ld , -ld }, {-ld , ld , -ld }, {-ld , -ld, -ld}};
 
-
-	for (int i = 0; i < indexMesh->mNumVertices; i++) {
-		indexMesh->vColors.emplace_back(dvec4(0.0,1.0,0.0,1.0));
-	}
-    //indexMesh->vNormals = indexMesh->vVertices;
-    //Construi
 	indexMesh->nNumIndices = 36;
 
 	indexMesh->vIndices = new GLuint[indexMesh->nNumIndices]{
@@ -380,7 +373,7 @@ void IndexMesh::buildNormalVectors() {
         vNormals.emplace_back(dvec3(0, 0, 0));
     }
 
-    for (int i = 0; i < nNumIndices; i += 3) {
+    for (int i = 0; i < nNumIndices; i += 3) {     
         glm::dvec3 n =
             glm::cross(
             (vVertices[vIndices[i + 2]] - vVertices[vIndices[i + 1]]),
@@ -400,10 +393,11 @@ void IndexMesh::buildNormalVectors() {
 MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil)
 {
     MbR* mesh = new MbR(mm, nn, perfil);
-    mesh->mPrimitive = GL_TRIANGLES;
+    mesh->mPrimitive = GL_LINE_STRIP;
     mesh->mNumVertices = mm * nn;
-   // dvec3* vertices = new dvec3[mesh->mNumVertices];
 	std::vector<glm::dvec3> vertices;  // vertex array
+    vertices.reserve(mesh->mNumVertices);
+    mesh->vVertices.reserve(mesh->nNumIndices);
 	//vertices
     for (int i = 0; i < nn; i++) {
         // Generar la muestra i-ésima de vértices
@@ -415,25 +409,19 @@ MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil)
             int indice = i * mm + j;
             GLdouble x = c * perfil[j].x + s * perfil[j].z;
             GLdouble z = -s * perfil[j].x + c * perfil[j].z;
-            vertices.push_back(dvec3(x, perfil[j].y, z));
+            vertices.emplace_back(dvec3(x, perfil[j].y, z));
         }
     }
     //volcamos el vector auxiliar
     for (int i = 0; i < mesh->mNumVertices; i++){
-        mesh->vVertices.push_back(vertices[i]);
+        mesh->vVertices.emplace_back(vertices[i]);
     }
-    mesh->nNumIndices = (mm * nn) / 4 * 6;  //vale
+    mesh->nNumIndices = (mm)*(nn - 1) * 6;            
+    mesh->vIndices = new GLuint[mesh->nNumIndices];
+    int indiceMayor = 0;
     for (int i = 0; i < nn; i++) {
-        // El contador j recorre los vértices del perfil,
-        // de abajo arriba. Las caras cuadrangulares resultan
-        // al unir la muestra i-ésima con la (i+1)%nn-ésima
         for (int j = 0; j < mm - 1; j++) {
-            // El contador indice sirve para llevar cuenta
-             // de los índices generados hasta ahora. Se recorre
-             // la cara desde la esquina inferior izquierda
             int indice = i * mm + j;
-            //mesh->vIndices[indice]
-            int indiceMayor = j;
             mesh->vIndices[indiceMayor] = indice; 
             indiceMayor++;
             mesh->vIndices[indiceMayor] = (indice + mm) % (nn * mm);
@@ -452,6 +440,4 @@ MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil)
 
     mesh->buildNormalVectors();
     return mesh;
-    // Los cuatro índices son entonces:
-    //indice, (indice + mm) % (nn * mm), (indice + mm + 1) % (nn * mm), indice + 1
 }

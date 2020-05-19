@@ -221,4 +221,11 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 
+class Esfera :public EntityWithIndexMesh {
+public:
+	explicit Esfera(GLdouble r, GLuint p, GLuint m);
+	~Esfera() { };
+
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
 #endif //_H_Entities_H_
