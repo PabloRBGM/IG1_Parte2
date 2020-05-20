@@ -1,5 +1,4 @@
 #include "Entity.h"
-
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
 using namespace glm;
@@ -502,11 +501,11 @@ Esfera::Esfera(GLdouble r, GLuint p, GLuint m) {
 	// h=altura del cono, r=radio de la base
 	// n=número de muestras, m=número de puntos del perfil
 	dvec3* perfil = new dvec3[p];
-	double angle = -90;
+	double angle = -90.0;
 	for (int i = 0; i < p ; i++) {
-		
+
 		perfil[i] = dvec3(r * cos(radians(angle)), r * sin(radians(angle)), 0.0);
-		angle += 180 / (p - 1);
+		angle += 180.0 / (p - 1.0);
 	}
 	perfil[0].x += 0.5;
 	perfil[p - 1].x += 0.5;
@@ -520,10 +519,8 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 
 		upload(aMat);
 		glEnable(GL_COLOR_MATERIAL);
-	
 
 		glColor3d(mColor.r, mColor.g, mColor.b);
-		//glEnable(GL_COLOR_MATERIAL);
 		mMesh->render();
 		glDisable(GL_COLOR_MATERIAL);
 
