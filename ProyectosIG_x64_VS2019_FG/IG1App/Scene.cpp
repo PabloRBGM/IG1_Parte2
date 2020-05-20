@@ -122,13 +122,13 @@ void Scene::init()
 		gObjects.push_back(esfera);
 
 
-		Sphere* sphere2 = new Sphere(100.0);
+		/*Sphere* sphere2 = new Sphere(100.0);
 		sphere2->setColor(fvec3(0.498, 1.0, 0.831));
 		glm::dmat4 mAuxC4 = sphere2->modelMat();
 
 		mAuxC4 = translate(mAuxC4, dvec3(200, 0, 0));
 		sphere2->setModelMat(mAuxC4);
-		gObjects.push_back(sphere2);
+		gObjects.push_back(sphere2);*/
 
 	}
 
