@@ -199,6 +199,15 @@ public:
 	~Cubo() { };
 
 	virtual void render(glm::dmat4 const& modelViewMat) const;
+	void setIsCooperMat(bool g, bool m) {
+		isCooper = g; isMat = m;
+	}
+private:
+	bool isCooper = false;
+	bool isMat = true;
+	void setCooper() const;
+	void resetMaterialValues() const;
+
 };
 
 class CompoundEntity : public Abs_Entity {
@@ -227,5 +236,13 @@ public:
 	~Esfera() { };
 
 	virtual void render(glm::dmat4 const& modelViewMat) const;
+	void setIsGoldMat(bool g, bool m) {
+		isGold = g; isMat = m;
+	}
+private:
+	bool isGold = false;
+	bool isMat = true;
+	void setGold() const;
+	void resetMaterialValues() const;
 };
 #endif //_H_Entities_H_

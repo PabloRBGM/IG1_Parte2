@@ -188,6 +188,24 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'k':
 		m2Vistas=!m2Vistas;
 		break;
+	case 'q':
+		mScene->setLight0(true);
+		break;
+	case 'w':
+		mScene->setLight0(false);
+		break;
+	case 'a':
+		mScene->setLight1(true);
+		break;
+	case 's':
+		mScene->setLight1(false);
+		break;
+	case 'z':
+		mScene->setLight2(true);
+		break;
+	case 'x':
+		mScene->setLight2(false);
+		break;
 	default:
 		need_redisplay = false;
 		break;
