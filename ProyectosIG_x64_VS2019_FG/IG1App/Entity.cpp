@@ -1,6 +1,7 @@
 #include "Entity.h"
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
+#include "Light.h"
 using namespace glm;
 
 //-------------------------------------------------------------------------
@@ -568,54 +569,67 @@ Esfera::Esfera(GLdouble r, GLuint p, GLuint m) {
 
 void Esfera::render(glm::dmat4 const& modelViewMat) const
 {
+
+	//	if (isGold) {
+	//		setGold();
+	//		if (isMat) {	
+	//			glEnable(GL_COLOR_MATERIAL);
+	//			glColor3d(mColor.r, mColor.g, mColor.b);
+	//		}		
+	//		mMesh->render();
+	//		glColor3f(1.0, 1.0, 1.0);
+	//		glDisable(GL_COLOR_MATERIAL);
+	//		resetMaterialValues();
+	//	}
+	//	else {
+	//		glEnable(GL_COLOR_MATERIAL);
+	//		glColor3d(mColor.r, mColor.g, mColor.b);
+	//		mMesh->render();
+	//		glColor3f(1.0, 1.0, 1.0);
+	//		glDisable(GL_COLOR_MATERIAL);
+	//	}
+	//	
+
+	//}
+	
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-		
+
 		upload(aMat);
 
-		if (isGold) {
-			setGold();
-			if (isMat) {	
-				glEnable(GL_COLOR_MATERIAL);
-				glColor3d(mColor.r, mColor.g, mColor.b);
-			}		
-			mMesh->render();
-			glColor3f(1.0, 1.0, 1.0);
-			glDisable(GL_COLOR_MATERIAL);
-			resetMaterialValues();
-		}
-		else {
-			glEnable(GL_COLOR_MATERIAL);
-			glColor3d(mColor.r, mColor.g, mColor.b);
-			mMesh->render();
-			glColor3f(1.0, 1.0, 1.0);
-			glDisable(GL_COLOR_MATERIAL);
-		}
-		
-
+		glEnable(GL_COLOR_MATERIAL);
+		glColor3d(mColor.r, mColor.g, mColor.b);
+		if (material != nullptr)
+			material->upload();
+		mMesh->render();
+		glColor3f(1.0, 1.0, 1.0);
+		glDisable(GL_COLOR_MATERIAL);
 	}
 }
 
-void Esfera::setGold() const
-{
-	glm::fvec4 ambient = { 0.24725, 0.1995, 0.0745, 1.0 };
-	glm::fvec4 diffuse = { 0.75164, 0.60648, 0.22648, 1.0 };
-	glm::fvec4 specular = { 0.628281, 0.555802, 0.366065, 1.0 };
-	GLuint face = GL_FRONT_AND_BACK;
-	GLfloat expF = 51.2;
+//void Esfera::setGold() const
+//{
+//	glm::fvec4 ambient = { 0.24725, 0.1995, 0.0745, 1.0 };
+//	glm::fvec4 diffuse = { 0.75164, 0.60648, 0.22648, 1.0 };
+//	glm::fvec4 specular = { 0.628281, 0.555802, 0.366065, 1.0 };
+//	GLuint face = GL_FRONT_AND_BACK;
+//	GLfloat expF = 51.2;
+//
+//	glMaterialfv(face, GL_AMBIENT, value_ptr(ambient));
+//	glMaterialfv(face, GL_DIFFUSE, value_ptr(diffuse));
+//	glMaterialfv(face, GL_SPECULAR, value_ptr(specular));
+//	glMaterialf(face, GL_SHININESS, expF);
+//	glShadeModel(GL_SMOOTH);
+//
+//}
+//
+// Esto no hace falta?
+//void Esfera::resetMaterialValues() const{
+//	GLuint face = GL_FRONT_AND_BACK;
+//	glMaterialfv(face, GL_AMBIENT, value_ptr(glm::fvec4(0, 0, 0, 1)));
+//	glMaterialfv(face, GL_DIFFUSE, value_ptr(glm::fvec4(0, 0, 0, 1)));
+//	glMaterialfv(face, GL_SPECULAR, value_ptr(glm::fvec4(0, 0, 0, 1)));
+//	glMaterialf(face, GL_SHININESS, 0);
+//}
 
-	glMaterialfv(face, GL_AMBIENT, value_ptr(ambient));
-	glMaterialfv(face, GL_DIFFUSE, value_ptr(diffuse));
-	glMaterialfv(face, GL_SPECULAR, value_ptr(specular));
-	glMaterialf(face, GL_SHININESS, expF);
-	glShadeModel(GL_SMOOTH);
 
-}
-
-void Esfera::resetMaterialValues() const{
-	GLuint face = GL_FRONT_AND_BACK;
-	glMaterialfv(face, GL_AMBIENT, value_ptr(glm::fvec4(0, 0, 0, 1)));
-	glMaterialfv(face, GL_DIFFUSE, value_ptr(glm::fvec4(0, 0, 0, 1)));
-	glMaterialfv(face, GL_SPECULAR, value_ptr(glm::fvec4(0, 0, 0, 1)));
-	glMaterialf(face, GL_SHININESS, 0);
-}

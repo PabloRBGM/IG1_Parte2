@@ -189,22 +189,39 @@ void IG1App::key(unsigned char key, int x, int y)
 		m2Vistas=!m2Vistas;
 		break;
 	case 'q':
-		mScene->setLight0(true);
+		//mScene->setLight0(true);
+		mScene->enableDirLight();
 		break;
 	case 'w':
-		mScene->setLight0(false);
+		//mScene->setLight0(false);
+		mScene->disableDirLight();
 		break;
 	case 'a':
-		mScene->setLight1(true);
+		//mScene->setLight1(true);
+		mScene->enablePosLight();
 		break;
 	case 's':
-		mScene->setLight1(false);
+		//mScene->setLight1(false);
+		mScene->disablePosLight();
 		break;
 	case 'z':
-		mScene->setLight2(true);
+		//mScene->setLight2(true);
+		mScene->enableSpotLight();
 		break;
 	case 'x':
-		mScene->setLight2(false);
+		//mScene->setLight2(false);
+		mScene->disableSpotLight();
+		break;
+	case 't':
+		//mScene->setLight2(true);
+		mScene->enableFoco();
+		break;
+	case 'g':
+		//mScene->setLight2(false);
+		mScene->disableFoco();
+		break;
+	case 'e':
+		mScene->turnOffLights();
 		break;
 	default:
 		need_redisplay = false;

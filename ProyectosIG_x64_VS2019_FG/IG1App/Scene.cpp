@@ -9,6 +9,7 @@ using namespace glm;
 void Scene::init()
 { 
 	setGL();  // OpenGL settings
+	setLights();
 	gObjects.push_back(new EjesRGB(400.0));
 	glClearColor(0.7, 0.8, 0.9, 0.0);
 	//-----------------------------------------------------------------------------------------------
@@ -100,13 +101,13 @@ void Scene::init()
 		//cubo->setmColor({ 0.0,1.0,0.0,1.0 });
 		cubo->setIsCooperMat(false, true);
 		glm::dmat4 mAuxAvion = avion->modelMat();
-		mAuxAvion = translate(mAuxAvion, dvec3(0, 120, 0));
+		mAuxAvion = translate(mAuxAvion, dvec3(0, 150, 0));
 		mAuxAvion = scale(mAuxAvion, dvec3(0.2, 0.2, 0.2));
 		avion->setModelMat(mAuxAvion);
 		avion->addEntity(cubo);
 		
 		gObjects.push_back(avion);
-
+		foco->setPosDir(fvec3(0, 150, 0));
 		/*Cono* cono = new Cono(100.0, 50.0, 3);
 		cono->setmColor(dvec4(0.0, 0.0, 1.0, 1.0));
 		glm::dmat4 mAuxC1 = cono->modelMat();
@@ -115,24 +116,27 @@ void Scene::init()
 		cono->setModelMat(mAuxC1);
 		gObjects.push_back(cono);*/
 	
-		CompoundEntity* ce = new CompoundEntity;
+		/*CompoundEntity* ce = new CompoundEntity;
 		Cubo* cubo2 = new Cubo();
-		cubo2->setmColor(dvec4(0.498, 1.0, 0.831, 1.0));
+		cubo2->setmColor(dvec4(0.498, 1.0, 0.831, 1.0));*/
 
 		//cubo2->setIsCooperMat();
 		
-		gObjects.push_back(ce);
-		ce->addEntity(cubo2);
+		/*gObjects.push_back(ce);
+		ce->addEntity(cubo2);*/
 		//gObjects.push_back(cubo2);
-		//Esfera* esfera = new Esfera(100.0, 50, 50);
-		//esfera->setmColor(dvec4(0.498, 1.0, 0.831, 1.0));
-		//// True True = color macizo
-		//// True false = oro
-		//// false * = render sin caractericticas propias del material
+		Esfera* esfera = new Esfera(100.0, 50, 50);
+		esfera->setmColor(dvec4(0.498, 1.0, 0.831, 1.0));
+		Material* goldMat = new Material();
+		goldMat->setGold();
+		esfera->setMaterial(goldMat);
+		// True True = color macizo
+		// True false = oro
+		// false * = render sin caractericticas propias del material
 		//esfera->setIsGoldMat(false, false);
-		////esfera->setGold();
-		//gObjects.push_back(esfera);
-
+		//esfera->setGold();
+		gObjects.push_back(esfera);
+		
 
 		/*Sphere* sphere2 = new Sphere(100.0);
 		sphere2->setColor(fvec3(0.498, 1.0, 0.831));
@@ -150,6 +154,20 @@ void Scene::setState(int id) {
 	mId = id;
 	free();
 	init();
+}
+void Scene::turnOffLights()
+{
+	/*light0_Enabled = false;
+	light1_Enabled = false;
+	light2_Enabled = false;*/
+	directionalLight->disable();
+	positionalLight->disable();
+	spotSceneLight->disable();
+	foco->disable();
+	glm::fvec4 amb = {0.0, 0.0, 0.0, 1.0};
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, value_ptr(amb));
+
+	//glDisable(GL_LIGHTING);
 }
 //-------------------------------------------------------------------------
 void Scene::free() 
@@ -172,6 +190,12 @@ void Scene::free()
 		delete t;  t = nullptr;
 	}
 	gTextures.clear();
+
+	//delete lights
+	delete directionalLight;
+	delete positionalLight;
+	delete spotSceneLight;
+	delete foco;
 }
 //-------------------------------------------------------------------------
 void Scene::setGL() 
@@ -186,6 +210,7 @@ void Scene::setGL()
 	glAlphaFunc(GL_GREATER, 0.0);*/
 	/*if(mId == 1)*/glEnable(GL_TEXTURE_2D);  
 	glEnable(GL_LIGHTING);
+	glEnable(GL_NORMALIZE);
 
 
 }
@@ -198,17 +223,27 @@ void Scene::resetGL()
 	//glDisable(GL_ALPHA_TEST);
 	/*if (mId == 1)*/glDisable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
-
+	glDisable(GL_NORMALIZE);
 }
 //-------------------------------------------------------------------------
 
 void Scene::render(Camera const& cam) const 
 {
-	sceneDirLight(cam);
+	//Iluminación
+
+	/*sceneDirLight(cam);
 	scenePosLight(cam);
-	sceneSpotLight(cam);
+	sceneSpotLight(cam);*/
+	if (directionalLight != nullptr)
+		directionalLight->upload(cam.viewMat());
+	if (positionalLight != nullptr)
+		positionalLight->upload(cam.viewMat());
+	if (spotSceneLight != nullptr)
+		spotSceneLight->upload(cam.viewMat());
+	if (foco != nullptr)
+		foco->upload(cam.viewMat());
 	cam.upload();
-	//sceneDirLight(cam);
+
 
 	//Primero renderizamos opacos
 	for (Abs_Entity* el : gObjects)
@@ -242,8 +277,9 @@ void Scene::sceneDirLight(Camera const& cam) const {
 		glm::fvec4 diffuse = { 1, 1, 1, 1 };
 		glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };
 		glLightfv(GL_LIGHT0, GL_AMBIENT, value_ptr(ambient));
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, value_ptr(diffuse));
-		glLightfv(GL_LIGHT0, GL_SPECULAR, value_ptr(specular));
+
+		//glLightfv(GL_LIGHT0, GL_DIFFUSE, value_ptr(diffuse));
+		//glLightfv(GL_LIGHT0, GL_SPECULAR, value_ptr(specular));
 	}
 	else {
 		glDisable(GL_LIGHT0);
@@ -257,9 +293,9 @@ void Scene::scenePosLight(Camera const& cam) const {
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixd(value_ptr(cam.viewMat()));
 
-		glm::fvec4 ambient = { 0, 0, 0, 1 };
-		glm::fvec4 diffuse = { 0.3, 0.8, 0.1, 1 };
-		glm::fvec4 specular = { 0.7, 0.7, 0.7, 1 };
+		glm::fvec4 ambient = { 0.0, 0.0, 0.0, 1 };
+		glm::fvec4 diffuse = {0.2, 0.8, 0.2, 1 };
+		glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };
 		glLightfv(GL_LIGHT1, GL_AMBIENT, value_ptr(ambient));
 		glLightfv(GL_LIGHT1, GL_DIFFUSE, value_ptr(diffuse));
 		glLightfv(GL_LIGHT1, GL_SPECULAR, value_ptr(specular));
@@ -267,6 +303,9 @@ void Scene::scenePosLight(Camera const& cam) const {
 		glm::fvec4 posDir = { 150.0, 150.0, 0.0, 1.0 };
 		glLightfv(GL_LIGHT1, GL_POSITION, value_ptr(posDir));
 
+		glLightf(GL_LIGHT1, GL_CONSTANT_ATTENUATION, 1);
+		glLightf(GL_LIGHT1, GL_LINEAR_ATTENUATION, 0);
+		glLightf(GL_LIGHT1, GL_QUADRATIC_ATTENUATION, 0);
 	}
 	else {
 		glDisable(GL_LIGHT1);
@@ -301,4 +340,32 @@ void Scene::sceneSpotLight(Camera const& cam) const
 	else {
 		glDisable(GL_LIGHT2);
 	}
+}
+
+void Scene::setLights()
+{
+	directionalLight = new DirLight();
+	directionalLight->setPosDir(glm::fvec4( 1, 1, 1, 0 ));
+	directionalLight->setAmb(glm::fvec4(0, 0, 0, 1));
+	directionalLight->setDiff(glm::fvec4(1, 1, 1, 1));
+	directionalLight->setSpec(glm::fvec4(0.5, 0.5, 0.5, 1));
+
+	positionalLight = new PosLight();
+	positionalLight->setPosDir(glm::fvec4(150.0, 150.0, 0.0, 1.0));
+	positionalLight->setAmb(glm::fvec4(0.0, 0.0, 0.0, 1));
+	positionalLight->setDiff(glm::fvec4(0.3, 0.8, 0.1, 1));
+	positionalLight->setSpec(glm::fvec4(0.7, 0.7, 0.7, 1));
+
+	spotSceneLight = new SpotLight();
+	spotSceneLight->setPosDir(glm::fvec4(0.0, 0.0, 200.0, 1.0));
+	spotSceneLight->setAmb(glm::fvec4(0, 0, 0, 1));
+	spotSceneLight->setDiff(glm::fvec4(0.3, 1, 0.3, 1));
+	spotSceneLight->setSpec(glm::fvec4(0.5, 1, 0.5, 1));
+	spotSceneLight->setSpot(glm::fvec3(0.0, 0.0, -1.0), 45.0, 0.5);
+
+	foco = new SpotLight();
+	//foco->setPosDir(glm::fvec4(0.0, 0.0, 200.0, 1.0)); //ahora da igual
+
+	foco->setSpot(glm::fvec3(0.0, -1.0, 0.0), 20.0, 0.5);
+	//foco->disable();
 }

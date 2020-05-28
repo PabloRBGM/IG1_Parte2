@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include "Entity.h"
 #include "Texture.h"
+#include "Light.h"
 
 #include <vector>
 
@@ -27,7 +28,7 @@ public:
 
     void render(Camera const& cam) const;
 	void update();
-
+	//Métodos antes de tener la clase Light
 	void setLight0(bool b) {
 		light0_Enabled = b;
 	}
@@ -37,6 +38,16 @@ public:
 	void setLight2(bool b) {
 		light2_Enabled = b;
 	}
+	void turnOffLights();
+	//Métodos con la clase Light;
+	void enableDirLight() { directionalLight->enable(); }
+	void disableDirLight() { directionalLight->disable(); }
+	void enablePosLight() { positionalLight->enable(); }
+	void disablePosLight() { positionalLight->disable(); }
+	void enableSpotLight() { spotSceneLight->enable(); }
+	void disableSpotLight() { spotSceneLight->disable(); }
+	void enableFoco() { foco->enable(); }
+	void disableFoco() { foco->disable(); }
 protected:
 	void free();
 	void setGL();
@@ -44,13 +55,19 @@ protected:
 	void sceneDirLight(Camera const& cam) const;
 	void scenePosLight(Camera const& cam) const;
 	void sceneSpotLight(Camera const& cam) const;
-
+	void setLights();
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
 	std::vector<Abs_Entity*> translucentgObjects;  // Entities (graphic objects) of the scene
 	std::vector<Texture*> gTextures;	//
 	bool light0_Enabled = false;
 	bool light1_Enabled = false;
 	bool light2_Enabled = true;
+
+	DirLight* directionalLight = nullptr;
+	PosLight* positionalLight = nullptr;
+	SpotLight* spotSceneLight = nullptr;
+	SpotLight* foco = nullptr;
+
 };
 //-------------------------------------------------------------------------
 

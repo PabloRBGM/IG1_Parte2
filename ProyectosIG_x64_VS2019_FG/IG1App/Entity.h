@@ -7,7 +7,7 @@
 
 #include "Mesh.h"
 #include "Texture.h"
-
+#include "Material.h"
 //-------------------------------------------------------------------------
 
 class Abs_Entity  // abstract class
@@ -230,19 +230,33 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 
-class Esfera :public EntityWithIndexMesh {
+class EntityWithMaterial : public Abs_Entity {
+public:
+	EntityWithMaterial() : Abs_Entity() { };
+	virtual ~EntityWithMaterial() { delete mMesh; mMesh = nullptr; delete material; };
+
+	void setMaterial(Material* matl) { material = matl; };
+protected:
+	Material* material = nullptr;
+};
+
+//lo relacionado con setGold era previo a la clase Material
+class Esfera :public EntityWithMaterial {
 public:
 	explicit Esfera(GLdouble r, GLuint p, GLuint m);
 	~Esfera() { };
 
 	virtual void render(glm::dmat4 const& modelViewMat) const;
-	void setIsGoldMat(bool g, bool m) {
-		isGold = g; isMat = m;
-	}
+	//void setIsGoldMat(bool g, bool m) {
+	//	isGold = g; isMat = m;
+	//}
 private:
-	bool isGold = false;
-	bool isMat = true;
-	void setGold() const;
-	void resetMaterialValues() const;
+	//bool isGold = false;
+	//bool isMat = true;
+	//void setGold() const;
+	//void resetMaterialValues() const;
 };
+
+
+
 #endif //_H_Entities_H_
