@@ -12,7 +12,7 @@ Light::Light() {
         glEnable(id);
     }
 };
-
+//tocar algo del ambiente
 void Light::uploadL() const{
     // Transfiere las características de la luz a la GPU
     glLightfv(id, GL_AMBIENT, value_ptr(ambient));

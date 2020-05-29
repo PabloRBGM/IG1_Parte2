@@ -107,10 +107,10 @@ void Scene::init()
 		Material* goldMat = new Material();
 		goldMat->setGold();
 		//goldMat->setCopper();
-		esfera->setMaterial(goldMat);
+		esfera->setMaterial(goldMat);//pone material a la esfera
 		gObjects.push_back(esfera);
 		
-
+		//para ver que se ven igual las dos eferas, con Sphere y con Esfera
 		/*Sphere* sphere2 = new Sphere(100.0);
 		sphere2->setColor(fvec3(0.498, 1.0, 0.831));
 		glm::dmat4 mAuxC4 = sphere2->modelMat();
@@ -373,7 +373,7 @@ void Scene::setLights()
 
 	foco = new SpotLight();
 	foco->setSpot(glm::fvec3(0.0, -1.0, 0.0), 20.0, 0.5);
-	//foco->setAtte(1.0, 10.0, 0.0);
+	foco->setAmb(glm::fvec4(0, 0, 0, 1));
 	foco->disable();
 
 	minero = new PosLight();

@@ -236,7 +236,6 @@ protected:
 	Material* material = nullptr;
 };
 
-//lo relacionado con setGold era previo a la clase Material
 class Esfera :public EntityWithMaterial {
 public:
 	explicit Esfera(GLdouble r, GLuint p, GLuint m);
