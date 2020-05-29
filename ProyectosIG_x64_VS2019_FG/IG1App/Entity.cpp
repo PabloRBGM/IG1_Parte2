@@ -518,6 +518,7 @@ CompoundEntity::~CompoundEntity()
 
 void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 {
+
 	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 
 	//upload(aMat);
@@ -527,6 +528,8 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 	}
 	
 }
+
+
 
 Cono::Cono(GLdouble h, GLdouble r, GLuint n) {
 	// h=altura del cono, r=radio de la base

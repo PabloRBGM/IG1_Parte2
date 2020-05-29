@@ -48,6 +48,9 @@ public:
 	void disableSpotLight() { spotSceneLight->disable(); }
 	void enableFoco() { foco->enable(); }
 	void disableFoco() { foco->disable(); }
+	void move() {
+		isMoving = !isMoving;
+	}
 protected:
 	void free();
 	void setGL();
@@ -68,6 +71,17 @@ protected:
 	SpotLight* spotSceneLight = nullptr;
 	SpotLight* foco = nullptr;
 
+	// Para mover el avion usamos una referencia
+	// y los angulos de rotacion
+	CompoundEntity* avion = nullptr;
+	CompoundEntity* helices = nullptr;
+	GLdouble rad = 150;
+	GLdouble globalAngle = 0.0;
+	GLdouble localAngle = 0.0;
+	GLdouble hecAngle = 0.0;
+	bool isMoving = false;
+
+	void movement();
 };
 //-------------------------------------------------------------------------
 

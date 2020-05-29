@@ -2,7 +2,7 @@
 #include "CheckML.h"
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
-
+#include <iostream>
 using namespace glm;
 //-------------------------------------------------------------------------
 //creamos los objectos que queremos y los añadimos a gObjects 
@@ -15,8 +15,7 @@ void Scene::init()
 	//-----------------------------------------------------------------------------------------------
 	//Escena 3D, Entidades Cuadricas
 	if (mId == 1) {
-		
-
+	
 		Sphere* esfera = new Sphere(100.0);
 		esfera->setColor({ 1.0,0.3,0.0 });
 		gObjects.push_back(esfera);
@@ -60,7 +59,7 @@ void Scene::init()
 
 	}
 	else if (mId == 3) {
-		CompoundEntity* helices = new CompoundEntity();
+		helices = new CompoundEntity();
 		//gObjects.push_back(helices);
 
 		Cylinder* conoDer = new Cylinder(15.0, 10.0, 50.0);
@@ -80,6 +79,7 @@ void Scene::init()
 
 		helices->addEntity(conoDer);
 		helices->addEntity(conoIzq);
+		gObjects.push_back(helices);
 		//-----------------------------------------------------------------------
 		CompoundEntity* chasis = new CompoundEntity();
 		//gObjects.push_back(chasis);
@@ -88,9 +88,9 @@ void Scene::init()
 		sphere->setColor({ 1.0, 0.0 ,0.0 });
 
 		chasis->addEntity(sphere);
-		chasis->addEntity(helices);
+		//chasis->addEntity(helices);
 		//---------------------------------------
-		CompoundEntity* avion = new CompoundEntity();
+		avion = new CompoundEntity();
 		avion->addEntity(chasis);
 		Cubo* cubo = new Cubo();
 		glm::dmat4 mAuxCubo = cubo->modelMat();
@@ -107,6 +107,7 @@ void Scene::init()
 		avion->addEntity(cubo);
 		
 		gObjects.push_back(avion);
+		//foco en la misma posición que el avion
 		foco->setPosDir(fvec3(0, 150, 0));
 		/*Cono* cono = new Cono(100.0, 50.0, 3);
 		cono->setmColor(dvec4(0.0, 0.0, 1.0, 1.0));
@@ -168,6 +169,33 @@ void Scene::turnOffLights()
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, value_ptr(amb));
 
 	//glDisable(GL_LIGHTING);
+}
+void Scene::movement()
+{
+	if (isMoving) {
+		dmat4 mI(1.0);
+		// movemos las helices
+		dmat4 auxHec = helices->modelMat();
+		//auxHec = translate(mI, rad * translation);
+		auxHec = rotate(mI, radians(hecAngle), dvec3(0.0, 0.0, 1.0));
+		std::cout << hecAngle << std::endl;
+		hecAngle += 2;
+		
+		//  movemos el avion
+		dmat4 aux = avion->modelMat();
+		dvec3 translation = dvec3(0.0, cos(radians(globalAngle)), sin(radians(globalAngle)));
+		aux = translate(mI, rad * translation); //move to relPos
+		aux = rotate(aux, radians(localAngle), dvec3(1.0, 0.0, 0.0));//rotate himself.
+		aux = scale(aux, dvec3(0.2, 0.2, 0.2));
+		avion->setModelMat(aux);
+		// mover el foco
+		foco->setPosDir(rad * translation);
+		foco->setSpot(-translation, 20.0, 0.5);
+
+		
+		globalAngle += 2;//increase globalAngle
+		localAngle += 2;//increase localAngle 
+	}
 }
 //-------------------------------------------------------------------------
 void Scene::free() 
@@ -264,6 +292,8 @@ void Scene::update() {
 	for (Abs_Entity* e : gObjects) {
 		e->update();
 	}
+	//actualizamos el avion y el foco
+	movement();
 }
 
 void Scene::sceneDirLight(Camera const& cam) const {

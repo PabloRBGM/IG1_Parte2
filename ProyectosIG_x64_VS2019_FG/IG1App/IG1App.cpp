@@ -223,6 +223,9 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'e':
 		mScene->turnOffLights();
 		break;
+	case 'y':
+		mScene->move();
+		break;
 	default:
 		need_redisplay = false;
 		break;
