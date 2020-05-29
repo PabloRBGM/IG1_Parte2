@@ -28,6 +28,7 @@ public:
 
     void render(Camera const& cam) const;
 	void update();
+
 	//Métodos antes de tener la clase Light
 	void setLight0(bool b) {
 		light0_Enabled = b;
@@ -39,6 +40,7 @@ public:
 		light2_Enabled = b;
 	}
 	void turnOffLights();
+
 	//Métodos con la clase Light;
 	void enableDirLight() { directionalLight->enable(); }
 	void disableDirLight() { directionalLight->disable(); }
@@ -48,6 +50,8 @@ public:
 	void disableSpotLight() { spotSceneLight->disable(); }
 	void enableFoco() { foco->enable(); }
 	void disableFoco() { foco->disable(); }
+	void enableMinero() { minero->enable(); }
+	void disableMinero() { minero->disable(); }
 	void move() {
 		isMoving = !isMoving;
 	}
@@ -70,7 +74,7 @@ protected:
 	PosLight* positionalLight = nullptr;
 	SpotLight* spotSceneLight = nullptr;
 	SpotLight* foco = nullptr;
-
+	PosLight* minero = nullptr;
 	// Para mover el avion usamos una referencia
 	// y los angulos de rotacion
 	CompoundEntity* avion = nullptr;

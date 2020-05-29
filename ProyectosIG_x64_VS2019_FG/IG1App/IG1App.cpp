@@ -213,12 +213,16 @@ void IG1App::key(unsigned char key, int x, int y)
 		mScene->disableSpotLight();
 		break;
 	case 't':
-		//mScene->setLight2(true);
 		mScene->enableFoco();
 		break;
 	case 'g':
-		//mScene->setLight2(false);
 		mScene->disableFoco();
+		break;
+	case 'd':
+		mScene->enableMinero();
+		break;
+	case 'f':
+		mScene->disableMinero();
 		break;
 	case 'e':
 		mScene->turnOffLights();

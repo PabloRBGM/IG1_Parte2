@@ -60,8 +60,6 @@ void Scene::init()
 	}
 	else if (mId == 3) {
 		helices = new CompoundEntity();
-		//gObjects.push_back(helices);
-
 		Cylinder* conoDer = new Cylinder(15.0, 10.0, 50.0);
 		glm::dmat4 mAuxC2 = conoDer->modelMat();
 		mAuxC2 = translate(mAuxC2, dvec3(0, 0, 115));
@@ -79,27 +77,21 @@ void Scene::init()
 
 		helices->addEntity(conoDer);
 		helices->addEntity(conoIzq);
-		gObjects.push_back(helices);
 		//-----------------------------------------------------------------------
 		CompoundEntity* chasis = new CompoundEntity();
-		//gObjects.push_back(chasis);
-
 		Sphere* sphere = new Sphere(100.0);
 		sphere->setColor({ 1.0, 0.0 ,0.0 });
 
 		chasis->addEntity(sphere);
-		//chasis->addEntity(helices);
+		chasis->addEntity(helices);
 		//---------------------------------------
 		avion = new CompoundEntity();
 		avion->addEntity(chasis);
 		Cubo* cubo = new Cubo();
 		glm::dmat4 mAuxCubo = cubo->modelMat();
-
-		//mAuxCubo = rotate(mAuxCubo, radians(270.0), dvec3(0, 1, 0));
 		mAuxCubo = scale(mAuxCubo, dvec3(3.5,0.3, 1.5));
 		cubo->setModelMat(mAuxCubo);
-		//cubo->setmColor({ 0.0,1.0,0.0,1.0 });
-		cubo->setIsCooperMat(false, true);
+		cubo->setmColor({ 0.0, 1.0 ,0.0, 1.0 });
 		glm::dmat4 mAuxAvion = avion->modelMat();
 		mAuxAvion = translate(mAuxAvion, dvec3(0, 150, 0));
 		mAuxAvion = scale(mAuxAvion, dvec3(0.2, 0.2, 0.2));
@@ -109,33 +101,13 @@ void Scene::init()
 		gObjects.push_back(avion);
 		//foco en la misma posición que el avion
 		foco->setPosDir(fvec3(0, 150, 0));
-		/*Cono* cono = new Cono(100.0, 50.0, 3);
-		cono->setmColor(dvec4(0.0, 0.0, 1.0, 1.0));
-		glm::dmat4 mAuxC1 = cono->modelMat();
-
-		mAuxC1 = translate(mAuxC1, dvec3(0, 150, 0));
-		cono->setModelMat(mAuxC1);
-		gObjects.push_back(cono);*/
-	
-		/*CompoundEntity* ce = new CompoundEntity;
-		Cubo* cubo2 = new Cubo();
-		cubo2->setmColor(dvec4(0.498, 1.0, 0.831, 1.0));*/
-
-		//cubo2->setIsCooperMat();
-		
-		/*gObjects.push_back(ce);
-		ce->addEntity(cubo2);*/
-		//gObjects.push_back(cubo2);
+		//----------------------------------------------
 		Esfera* esfera = new Esfera(100.0, 50, 50);
-		esfera->setmColor(dvec4(0.498, 1.0, 0.831, 1.0));
+		esfera->setmColor(dvec4(0.0, 1.0, 1.0, 1.0));
 		Material* goldMat = new Material();
 		goldMat->setGold();
+		//goldMat->setCopper();
 		esfera->setMaterial(goldMat);
-		// True True = color macizo
-		// True false = oro
-		// false * = render sin caractericticas propias del material
-		//esfera->setIsGoldMat(false, false);
-		//esfera->setGold();
 		gObjects.push_back(esfera);
 		
 
@@ -165,6 +137,7 @@ void Scene::turnOffLights()
 	positionalLight->disable();
 	spotSceneLight->disable();
 	foco->disable();
+	minero->disable();
 	glm::fvec4 amb = {0.0, 0.0, 0.0, 1.0};
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, value_ptr(amb));
 
@@ -176,9 +149,8 @@ void Scene::movement()
 		dmat4 mI(1.0);
 		// movemos las helices
 		dmat4 auxHec = helices->modelMat();
-		//auxHec = translate(mI, rad * translation);
 		auxHec = rotate(mI, radians(hecAngle), dvec3(0.0, 0.0, 1.0));
-		std::cout << hecAngle << std::endl;
+		helices->setModelMat(auxHec);
 		hecAngle += 2;
 		
 		//  movemos el avion
@@ -224,6 +196,7 @@ void Scene::free()
 	delete positionalLight;
 	delete spotSceneLight;
 	delete foco;
+	delete minero;
 }
 //-------------------------------------------------------------------------
 void Scene::setGL() 
@@ -249,7 +222,8 @@ void Scene::resetGL()
 	glDisable(GL_DEPTH_TEST);  // disable Depth test 	
 	glDisable(GL_BLEND);
 	//glDisable(GL_ALPHA_TEST);
-	/*if (mId == 1)*/glDisable(GL_TEXTURE_2D);
+	/*if (mId == 1)*/
+	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
 	glDisable(GL_NORMALIZE);
 }
@@ -270,6 +244,8 @@ void Scene::render(Camera const& cam) const
 		spotSceneLight->upload(cam.viewMat());
 	if (foco != nullptr)
 		foco->upload(cam.viewMat());
+	if (minero != nullptr)
+		minero->upload(dmat4(1.0));
 	cam.upload();
 
 
@@ -308,8 +284,8 @@ void Scene::sceneDirLight(Camera const& cam) const {
 		glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };
 		glLightfv(GL_LIGHT0, GL_AMBIENT, value_ptr(ambient));
 
-		//glLightfv(GL_LIGHT0, GL_DIFFUSE, value_ptr(diffuse));
-		//glLightfv(GL_LIGHT0, GL_SPECULAR, value_ptr(specular));
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, value_ptr(diffuse));
+		glLightfv(GL_LIGHT0, GL_SPECULAR, value_ptr(specular));
 	}
 	else {
 		glDisable(GL_LIGHT0);
@@ -385,17 +361,25 @@ void Scene::setLights()
 	positionalLight->setAmb(glm::fvec4(0.0, 0.0, 0.0, 1));
 	positionalLight->setDiff(glm::fvec4(0.3, 0.8, 0.1, 1));
 	positionalLight->setSpec(glm::fvec4(0.7, 0.7, 0.7, 1));
+	positionalLight->disable();
 
 	spotSceneLight = new SpotLight();
-	spotSceneLight->setPosDir(glm::fvec4(0.0, 0.0, 200.0, 1.0));
+	spotSceneLight->setPosDir(glm::fvec4(0.0, 0.0, 300.0, 1.0));
 	spotSceneLight->setAmb(glm::fvec4(0, 0, 0, 1));
 	spotSceneLight->setDiff(glm::fvec4(0.3, 1, 0.3, 1));
 	spotSceneLight->setSpec(glm::fvec4(0.5, 1, 0.5, 1));
 	spotSceneLight->setSpot(glm::fvec3(0.0, 0.0, -1.0), 45.0, 0.5);
+	spotSceneLight->disable();
 
 	foco = new SpotLight();
-	//foco->setPosDir(glm::fvec4(0.0, 0.0, 200.0, 1.0)); //ahora da igual
-
 	foco->setSpot(glm::fvec3(0.0, -1.0, 0.0), 20.0, 0.5);
-	//foco->disable();
+	//foco->setAtte(1.0, 10.0, 0.0);
+	foco->disable();
+
+	minero = new PosLight();
+	minero->setPosDir(glm::fvec4(150.0, 150.0, 150.0, 1.0));
+	minero->setAmb(glm::fvec4(0.0, 0.0, 0.0, 1));
+	minero->setDiff(glm::fvec4(1, 1, 1, 1));
+	minero->setSpec(glm::fvec4(0.5, 0.5, 0.5, 1));	
+	minero->disable();
 }
