@@ -51,11 +51,11 @@ void Scene::init()
 		gObjects.push_back(partDisco);
 	}
 	else if (mId == 2) {
-		AnilloCuadrado* anillo = new AnilloCuadrado();
-		gObjects.push_back(anillo);
-		/*EntityWithIndexMesh* cubo = new Cubo();
+		/*AnilloCuadrado* anillo = new AnilloCuadrado();
+		gObjects.push_back(anillo);*/
+		EntityWithIndexMesh* cubo = new Cubo();
 		cubo->setmColor(dvec4(1.0, 0.0, 0.0, 1.0));
-		gObjects.push_back(cubo);*/
+		gObjects.push_back(cubo);
 
 	}
 	else if (mId == 3) {
