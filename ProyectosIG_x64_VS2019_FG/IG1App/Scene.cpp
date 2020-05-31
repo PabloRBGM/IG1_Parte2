@@ -51,15 +51,15 @@ void Scene::init()
 		gObjects.push_back(partDisco);
 	}
 	else if (mId == 2) {
-		//AnilloCuadrado* anillo = new AnilloCuadrado();
-		//gObjects.push_back(anillo);
-		EntityWithIndexMesh* cubo = new Cubo();
+		AnilloCuadrado* anillo = new AnilloCuadrado();
+		gObjects.push_back(anillo);
+		/*EntityWithIndexMesh* cubo = new Cubo();
 		cubo->setmColor(dvec4(1.0, 0.0, 0.0, 1.0));
-		gObjects.push_back(cubo);
+		gObjects.push_back(cubo);*/
 
 	}
 	else if (mId == 3) {
-		helices = new CompoundEntity();
+		CompoundEntity*  helices = new CompoundEntity();
 		Cylinder* conoDer = new Cylinder(15.0, 10.0, 50.0);
 		glm::dmat4 mAuxC2 = conoDer->modelMat();
 		mAuxC2 = translate(mAuxC2, dvec3(0, 0, 115));
@@ -85,13 +85,13 @@ void Scene::init()
 		chasis->addEntity(sphere);
 		chasis->addEntity(helices);
 		//---------------------------------------
-		avion = new CompoundEntity();
+		avion = new Avion();
 		avion->addEntity(chasis);
-		Cubo* cubo = new Cubo();
+		Cubo* cubo = new CuboCooper();
 		glm::dmat4 mAuxCubo = cubo->modelMat();
 		mAuxCubo = scale(mAuxCubo, dvec3(3.5,0.3, 1.5));
 		cubo->setModelMat(mAuxCubo);
-		cubo->setmColor({ 0.0, 1.0 ,0.0, 1.0 });
+		//cubo->setmColor({ 0.0, 1.0 ,0.0, 1.0 });
 		glm::dmat4 mAuxAvion = avion->modelMat();
 		mAuxAvion = translate(mAuxAvion, dvec3(0, 150, 0));
 		mAuxAvion = scale(mAuxAvion, dvec3(0.2, 0.2, 0.2));
@@ -101,8 +101,11 @@ void Scene::init()
 		gObjects.push_back(avion);
 		//foco en la misma posición que el avion
 		foco->setPosDir(fvec3(0, 150, 0));
+
+		avion->setLight(foco);
+		avion->setHelices(helices);
 		//----------------------------------------------
-		Esfera* esfera = new Esfera(100.0, 50, 50);
+		Esfera* esfera = new Esfera(100.0, 200, 200);
 		esfera->setmColor(dvec4(0.0, 1.0, 1.0, 1.0));
 		Material* goldMat = new Material();
 		goldMat->setGold();
@@ -118,9 +121,7 @@ void Scene::init()
 		mAuxC4 = translate(mAuxC4, dvec3(200, 0, 0));
 		sphere2->setModelMat(mAuxC4);
 		gObjects.push_back(sphere2);*/
-
 	}
-
 }
 
 void Scene::setState(int id) { 
@@ -143,32 +144,7 @@ void Scene::turnOffLights()
 
 	//glDisable(GL_LIGHTING);
 }
-void Scene::movement()
-{
-	if (isMoving) {
-		dmat4 mI(1.0);
-		// movemos las helices
-		dmat4 auxHec = helices->modelMat();
-		auxHec = rotate(mI, radians(hecAngle), dvec3(0.0, 0.0, 1.0));
-		helices->setModelMat(auxHec);
-		hecAngle += 2;
-		
-		//  movemos el avion
-		dmat4 aux = avion->modelMat();
-		dvec3 translation = dvec3(0.0, cos(radians(globalAngle)), sin(radians(globalAngle)));
-		aux = translate(mI, rad * translation); //move to relPos
-		aux = rotate(aux, radians(localAngle), dvec3(1.0, 0.0, 0.0));//rotate himself.
-		aux = scale(aux, dvec3(0.2, 0.2, 0.2));
-		avion->setModelMat(aux);
-		// mover el foco
-		foco->setPosDir(rad * translation);
-		foco->setSpot(-translation, 20.0, 0.5);
 
-		
-		globalAngle += 2;//increase globalAngle
-		localAngle += 2;//increase localAngle 
-	}
-}
 //-------------------------------------------------------------------------
 void Scene::free() 
 { // release memory and resources   
@@ -269,7 +245,6 @@ void Scene::update() {
 		e->update();
 	}
 	//actualizamos el avion y el foco
-	movement();
 }
 
 void Scene::sceneDirLight(Camera const& cam) const {

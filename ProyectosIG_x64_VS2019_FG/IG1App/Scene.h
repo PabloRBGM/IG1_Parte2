@@ -41,7 +41,7 @@ public:
 	}
 	void turnOffLights();
 
-	//Métodos con la clase Light;
+	// Métodos con la clase Light, para activar/desactivar las luces
 	void enableDirLight() { directionalLight->enable(); }
 	void disableDirLight() { directionalLight->disable(); }
 	void enablePosLight() { positionalLight->enable(); }
@@ -52,40 +52,33 @@ public:
 	void disableFoco() { foco->disable(); }
 	void enableMinero() { minero->enable(); }
 	void disableMinero() { minero->disable(); }
-	void move() {
-		isMoving = !isMoving;
-	}
+	// Para mover el avion
+	void move() { avion->move(); }
 protected:
 	void free();
 	void setGL();
 	void resetGL();
-	void sceneDirLight(Camera const& cam) const;
-	void scenePosLight(Camera const& cam) const;
-	void sceneSpotLight(Camera const& cam) const;
 	void setLights();
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
 	std::vector<Abs_Entity*> translucentgObjects;  // Entities (graphic objects) of the scene
 	std::vector<Texture*> gTextures;	//
-	bool light0_Enabled = false;
-	bool light1_Enabled = false;
-	bool light2_Enabled = true;
-
+	
 	DirLight* directionalLight = nullptr;
 	PosLight* positionalLight = nullptr;
 	SpotLight* spotSceneLight = nullptr;
 	SpotLight* foco = nullptr;
 	PosLight* minero = nullptr;
 	// Para mover el avion usamos una referencia
-	// y los angulos de rotacion
-	CompoundEntity* avion = nullptr;
-	CompoundEntity* helices = nullptr;
-	GLdouble rad = 150;
-	GLdouble globalAngle = 0.0;
-	GLdouble localAngle = 0.0;
-	GLdouble hecAngle = 0.0;
-	bool isMoving = false;
+	Avion* avion = nullptr;
 
-	void movement();
+	// Metodos y variables sin la clase Light
+	void sceneDirLight(Camera const& cam) const;
+	void scenePosLight(Camera const& cam) const;
+	void sceneSpotLight(Camera const& cam) const;
+
+	bool light0_Enabled = false;
+	bool light1_Enabled = false;
+	bool light2_Enabled = true;
 };
 //-------------------------------------------------------------------------
 

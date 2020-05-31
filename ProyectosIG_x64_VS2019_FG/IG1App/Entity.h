@@ -8,6 +8,7 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include "Material.h"
+#include "Light.h"
 //-------------------------------------------------------------------------
 
 class Abs_Entity  // abstract class
@@ -177,8 +178,7 @@ protected:
 class AnilloCuadrado : public Abs_Entity {
 public:
 	explicit AnilloCuadrado();
-	virtual ~AnilloCuadrado() {	delete mMesh; mMesh = nullptr; 
-}
+	virtual ~AnilloCuadrado() {	delete mMesh; mMesh = nullptr; }
 
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
@@ -195,27 +195,55 @@ public:
 
 class Cubo :public EntityWithIndexMesh {
 public:
-	explicit Cubo();
-	~Cubo() { };
+	 Cubo();
+	virtual ~Cubo() { };
 
 	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
 
+//Para las alas del avion con el material de cobre
+class CuboCooper : public Cubo {
+public:
+	explicit CuboCooper() : Cubo() {}
+	virtual ~CuboCooper() {}
+	virtual void render(glm::dmat4 const& modelViewMat) const ;
 private:
 	void setCooper() const;
 };
 
 class CompoundEntity : public Abs_Entity {
 public:
-	explicit CompoundEntity();
+	CompoundEntity();
 	virtual ~CompoundEntity();
 	virtual void render(glm::dmat4 const& modelViewMat)const;
 	
-	void addEntity(Abs_Entity* ae) {
+	virtual void addEntity(Abs_Entity* ae) {
 		gObjects.push_back(ae);
 	}
 protected:
 	std::vector<Abs_Entity*> gObjects;
 	
+};
+
+// Para manejar el avion y su luz de forma mas sencilla
+class Avion : public CompoundEntity {
+public:
+	explicit Avion() : CompoundEntity(), rad(150) {}
+	explicit Avion(GLdouble rr) : CompoundEntity(),  rad(rr){}
+	virtual ~Avion() { };
+	void update() override;
+	void setLight(SpotLight* l) { foco = l; }
+	void setHelices(CompoundEntity* a) { helices = a; }
+	void move() { isMoving = !isMoving; }
+
+protected:
+	SpotLight* foco = nullptr;
+	CompoundEntity* helices = nullptr;
+	GLdouble rad = 0.0;
+	GLdouble globalAngle = 0.0;
+	GLdouble localAngle = 0.0;
+	GLdouble hecAngle = 0.0;
+	bool isMoving = false;
 };
 
 class Cono :public EntityWithIndexMesh {

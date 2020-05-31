@@ -308,13 +308,11 @@ void Disk::render(glm::dmat4 const& modelViewMat) const
 {
 	dmat4 aMat = modelViewMat * mModelMat;
 	upload(aMat);
-	// Aqu� se puede fijar el color de la esfera as�:
+	
 	glEnable(GL_COLOR_MATERIAL);
 	glColor3f(color.r, color.g, color.b);
-	// Aqu� se puede fijar el modo de dibujar la esfera:
 	gluQuadricDrawStyle(q, GLU_FILL);
 	gluDisk(q, innerRadius_, outerRadius_, slices_, rings_);
-	// Aqu� se debe recuperar el color:
 	glColor3f(1.0, 1.0, 1.0);
 	glDisable(GL_COLOR_MATERIAL);
 }
@@ -333,13 +331,10 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat) const
 {
 	dmat4 aMat = modelViewMat * mModelMat;
 	upload(aMat);
-	// Aqu� se puede fijar el color de la esfera as�:
 	 glEnable(GL_COLOR_MATERIAL);
 	 glColor3f(color.r, color.g, color.b);
-	 // Aqu� se puede fijar el modo de dibujar la esfera:
 	 gluQuadricDrawStyle(q, GLU_FILL);
 	 gluPartialDisk(q, innerRadius_, outerRadius_, slices_, rings_,startAngle_,sweepAngle_);
-	// Aqu� se debe recuperar el color:
 	 glColor3f(1.0, 1.0, 1.0);
 	 glDisable(GL_COLOR_MATERIAL);
 }
@@ -351,14 +346,10 @@ Sphere::Sphere(GLdouble rr) {
 void Sphere::render(glm::dmat4 const& modelViewMat) const {
 	dmat4 aMat = modelViewMat * mModelMat;
 	upload(aMat);
-	// Aqu� se puede fijar el color de la esfera as�:
 	glEnable(GL_COLOR_MATERIAL);
-	//Esfera roja
 	glColor3f(color.r, color.g, color.b);
-	// Aqu� se puede fijar el modo de dibujar la esfera:
 	gluQuadricDrawStyle(q, GLU_FILL);
 	gluSphere(q, r, 50, 50);
-	// Aqu� se debe recuperar el color:
 	glColor3f(1.0, 1.0, 1.0);
 	glDisable(GL_COLOR_MATERIAL);
 
@@ -373,14 +364,10 @@ Cylinder::Cylinder(GLdouble baseR, GLdouble topR, GLdouble height) {
 void Cylinder::render(glm::dmat4 const& modelViewMat) const {
 	dmat4 aMat = modelViewMat * mModelMat;
 	upload(aMat);
-	// Aqu� se puede fijar el color de la esfera as�:
 	glEnable(GL_COLOR_MATERIAL);
-	//Cilindro azul
 	glColor3f(color.r, color.g, color.b);
-	// Aqu� se puede fijar el modo de dibujar la esfera:
 	gluQuadricDrawStyle(q, GLU_FILL);
 	gluCylinder(q, bR, tR, h, 50, 25);
-	// Aqu� se debe recuperar el color:
 	glColor3f(1.0, 1.0, 1.0);
 	glDisable(GL_COLOR_MATERIAL);
 }
@@ -388,7 +375,6 @@ void Cylinder::render(glm::dmat4 const& modelViewMat) const {
 AnilloCuadrado::AnilloCuadrado()
 {
 	mMesh = Mesh::generaAnilloCuadrado();
-
 }
 
 void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
@@ -398,7 +384,6 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 
 		upload(aMat);
 		glEnable(GL_COLOR_MATERIAL);
-		//glColor3f(1.0,0.0,0.0);
 		mMesh->render();
 		glDisable(GL_COLOR_MATERIAL);
 	}
@@ -438,18 +423,30 @@ void Cubo::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 
 		upload(aMat);
-		//glEnable(GL_COLOR_MATERIAL);
+		glEnable(GL_COLOR_MATERIAL);
 		glColor3d(mColor.r, mColor.g, mColor.b);
-		setCooper();
 		mMesh->render();
 		glColor3f(1.0, 1.0, 1.0);
-		//glDisable(GL_COLOR_MATERIAL);
+		glDisable(GL_COLOR_MATERIAL);
 	}
 		
 	
 }
 
-void Cubo::setCooper() const
+void CuboCooper::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+
+		upload(aMat);
+		setCooper(); //
+		mMesh->render();
+	}
+}
+
+
+
+void CuboCooper::setCooper() const
 {
 	glm::fvec4 ambient = { 0.19125, 0.0735, 0.0225, 1.0 };
 	glm::fvec4 diffuse = { 0.7038, 0.27048, 0.0828, 1.0 };
@@ -512,7 +509,6 @@ void Cono::render(glm::dmat4 const& modelViewMat) const
 		upload(aMat);
 		glEnable(GL_COLOR_MATERIAL);
 		glColor3d(mColor.r, mColor.g, mColor.b);
-		//glEnable(GL_COLOR_MATERIAL);
 		mMesh->render();
 		glDisable(GL_COLOR_MATERIAL);
 
@@ -532,6 +528,7 @@ Esfera::Esfera(GLdouble r, GLuint p, GLuint m) {
 	mMesh = MbR::generaIndexMeshByRevolution(p, m, perfil);
 }
 
+//Para que se se vea el material sin tener en cuenta el color desactivamos el Gl_Color_Material
 void Esfera::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
@@ -546,5 +543,33 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 		mMesh->render();
 		glColor3f(1.0, 1.0, 1.0);
 		glDisable(GL_COLOR_MATERIAL);
+	}
+}
+
+
+void Avion::update()
+{
+	if (isMoving) {
+		dmat4 mI(1.0);
+		// movemos las helices
+		dmat4 auxHec = helices->modelMat();
+		auxHec = rotate(mI, radians(hecAngle), dvec3(0.0, 0.0, 1.0));
+		helices->setModelMat(auxHec);
+		hecAngle += 2;
+
+		//  movemos el avion
+		dmat4 aux = mModelMat;
+		dvec3 translation = dvec3(0.0, cos(radians(globalAngle)), sin(radians(globalAngle)));
+		aux = translate(mI, rad * translation); //move to relPos
+		aux = rotate(aux, radians(localAngle), dvec3(1.0, 0.0, 0.0));//rotate himself.
+		aux = scale(aux, dvec3(0.2, 0.2, 0.2));
+		mModelMat = aux;
+		// mover el foco
+		foco->setPosDir(rad * translation);
+		foco->setSpot(-translation, 20.0, 0.5);
+
+
+		globalAngle += 2;//increase globalAngle
+		localAngle += 2;//increase localAngle 
 	}
 }
