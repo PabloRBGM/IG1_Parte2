@@ -10,7 +10,8 @@ using namespace glm;
 
 Camera::Camera(Viewport* vp): mViewPort(vp), mViewMat(1.0), mProjMat(1.0),  
 							  xRight(vp->width() / 2.0), xLeft(-xRight),
-							  yTop(vp->height() / 2.0), yBot(-yTop)
+							  yTop(vp->height() / 2.0), yBot(-yTop),
+							  aspectRatio((GLdouble)vp->width() / (GLdouble)vp->height())
 {
     setPM();
 }
@@ -32,10 +33,10 @@ void Camera::setVM()
 
 void Camera::set2D() 
 {
-	mEye = dvec3(mRadio, 0, mRadio);
+	mEye = dvec3(0, 0, mRadio);
 	mLook = dvec3(0, 0, 0);
 	mUp = dvec3(0, 1, 0);
-	mAng = -45;
+	mAng = -90;
 	setVM();
 }
 //-------------------------------------------------------------------------
@@ -52,9 +53,9 @@ void Camera::set3D()
 }
 void Camera::setCenital()
 {
-	mEye = dvec3(0, 500, 0);
+	mEye = dvec3(0, mRadio, 0);
 	mLook = dvec3(0, 0, 0);
-	mUp = dvec3(0, 0, 1);
+	mUp = dvec3(0, 0, -1);
 	setVM();
 }
 //-------------------------------------------------------------------------
@@ -140,14 +141,18 @@ void Camera::changePrj()
 void Camera::setPM() 
 {
 	if (bOrto) { //  if orthogonal projection
+		//mNearVal = 1; // si lo queremos dejar por defecto
 		mProjMat = ortho(xLeft*mScaleFact, xRight*mScaleFact, yBot*mScaleFact, yTop*mScaleFact, mNearVal, mFarVal);
 		// glm::ortho defines the orthogonal projection matrix
 	}
 	else {
-		GLdouble top = mNearVal * tan(Fovy / 2.0);
-		GLdouble right = top * AspectRatio;
-		mProjMat = frustum(-right * mScaleFact, right * mScaleFact,-top * mScaleFact, top * mScaleFact, mNearVal, mFarVal);
-		//mProjMat = perspective(Fovy, AspectRatio, mNearVal, mFarVal);
+		// Near en funcion de Top, para poder ajustar fovy sin modificar la VV
+		mNearVal = yTop / tan(radians(fovy / 2.0));
+		/*GLdouble top = mNearVal * tan(radians(fovy / 2.0));
+		GLdouble bot = -top;
+		GLdouble right = top * aspectRatio;
+		GLdouble left = -right;*/
+		mProjMat = frustum(xLeft * mScaleFact, xRight * mScaleFact, yBot * mScaleFact, yTop * mScaleFact, mNearVal, mFarVal);
 	}
 
 

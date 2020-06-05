@@ -61,8 +61,8 @@ protected:
 	GLdouble mScaleFact = 1;   // scale factor
 	glm::dvec3 mRight, mUpward, mFront;		//axes attributes
 	GLdouble mAng = 0, mRadio = 500;
-	GLdouble Fovy = 90;
-	GLdouble AspectRatio = 16 / 9;
+	GLdouble fovy = 90;
+	GLdouble aspectRatio = 0;
 
 	bool bOrto = true;   // orthogonal or perspective projection
 
