@@ -122,6 +122,10 @@ void Scene::init()
 		sphere2->setModelMat(mAuxC4);
 		gObjects.push_back(sphere2);*/
 	}
+	else if (mId == 4) {
+		Grid* grid = new Grid(200, 10);
+		gObjects.push_back(grid);
+	}
 }
 
 void Scene::setState(int id) { 

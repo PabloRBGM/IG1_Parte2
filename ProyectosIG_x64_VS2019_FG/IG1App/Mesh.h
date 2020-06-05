@@ -26,6 +26,7 @@ public:
 	static Mesh* generaCajaTexCor(GLdouble nl);
 	static Mesh* generaAnilloCuadrado();
 
+
 	Mesh() {};
 	virtual ~Mesh() {};
 
@@ -59,6 +60,7 @@ public:
 	virtual void render() const;
 	virtual void draw() const;
 	static IndexMesh* generaIndexCuboConTapas(GLdouble l);
+	static IndexMesh* generateGrid(GLdouble lado, GLuint nDiv);
 	void buildNormalVectors();
 
 

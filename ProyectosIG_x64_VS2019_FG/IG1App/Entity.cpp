@@ -573,3 +573,26 @@ void Avion::update()
 		localAngle += 2;//increase localAngle 
 	}
 }
+
+Grid::Grid(GLdouble lado, GLuint nDiv)
+{
+	mMesh = IndexMesh::generateGrid(lado, nDiv);
+}
+
+void Grid::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+
+		upload(aMat);
+		//glEnable(GL_COLOR_MATERIAL);
+		//glColor3d(mColor.r, mColor.g, mColor.b);
+		glLineWidth(2);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_POINTS);
+		mMesh->render();
+		glLineWidth(1);
+		//glDisable(GL_COLOR_MATERIAL);
+
+	}
+}

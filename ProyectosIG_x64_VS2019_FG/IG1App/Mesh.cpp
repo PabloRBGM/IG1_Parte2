@@ -367,6 +367,8 @@ IndexMesh* IndexMesh::generaIndexCuboConTapas(GLdouble lda)
 	return indexMesh;
 }
 
+
+
 void IndexMesh::buildNormalVectors() {
     //inicializar las componentes del vector de normales al vector 0
     for (int i = 0; i < mNumVertices; i++) {
@@ -398,7 +400,7 @@ MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil)
     mesh->mNumVertices = mm * nn;
 	std::vector<glm::dvec3> vertices;  // vertex array
     vertices.reserve(mesh->mNumVertices);
-    mesh->vVertices.reserve(mesh->nNumIndices);
+    mesh->vVertices.reserve(mesh->mNumVertices);
 	//vertices
     for (int i = 0; i < nn; i++) {
         // Generar la muestra i-ésima de vértices
@@ -441,4 +443,58 @@ MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil)
 
     mesh->buildNormalVectors();
     return mesh;
+}
+
+IndexMesh* IndexMesh::generateGrid(GLdouble lado, GLuint nDiv)
+{
+    IndexMesh* indexMesh = new IndexMesh();
+    indexMesh->mPrimitive = GL_TRIANGLES;
+    indexMesh->mNumVertices = (nDiv + 1) * (nDiv + 1);
+    indexMesh->vVertices.reserve(indexMesh->mNumVertices);
+    indexMesh->vNormals.reserve(indexMesh->mNumVertices);   //Tamaño igual al vector de vértices
+
+    std::vector<glm::dvec3> vertices;  // aux vertex array
+    vertices.reserve(indexMesh->mNumVertices);
+
+    for (int i = 0; i < (nDiv + 1); i++) {
+        // Generar la muestra i-ésima de vértices
+       
+        GLdouble nx = i * (lado / nDiv);
+        GLdouble ny;
+        // R_y(theta) es la matriz de rotación alrededor del eje Y
+        for (int j = 0; j < (nDiv + 1); j++) {
+            ny = j * (lado / nDiv);           
+            vertices.emplace_back(dvec3(nx, ny, 0));
+        }
+    }
+
+    //volcamos el vector auxiliar
+    for (int i = 0; i < indexMesh->mNumVertices; i++) {
+        indexMesh->vVertices.emplace_back(vertices[i]);
+    }
+
+    indexMesh->nNumIndices = 6 * nDiv * nDiv;
+    indexMesh->vIndices = new GLuint[indexMesh->nNumIndices];
+    int indiceMayor = 0;
+    for (int i = 0; i < nDiv; i++) {
+        for (int j = 0; j < nDiv; j++) {
+            int indice = i * nDiv + j;
+            indexMesh->vIndices[indiceMayor] = indice;
+            indiceMayor++;
+            indexMesh->vIndices[indiceMayor] = (indice + nDiv) % (nDiv * nDiv);
+            indiceMayor++;
+            indexMesh->vIndices[indiceMayor] = (indice + nDiv + 1) % (nDiv * nDiv);
+            indiceMayor++;
+
+            indexMesh->vIndices[indiceMayor] = (indice + nDiv + 1) % (nDiv * nDiv);
+            indiceMayor++;
+            indexMesh->vIndices[indiceMayor] = indice + 1;
+            indiceMayor++;
+            indexMesh->vIndices[indiceMayor] = indice;
+            indiceMayor++;
+        }
+    }
+
+    indexMesh->buildNormalVectors();
+    return indexMesh;
 }

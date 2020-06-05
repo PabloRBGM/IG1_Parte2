@@ -1,3 +1,5 @@
-﻿  IG1App.cpp
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\IG1App.cpp(270,2): warning C4065: la instrucción switch contiene etiquetas 'default' pero no etiquetas 'case'
+﻿  Entity.cpp
+D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Entity.cpp(165,41): warning C4244: 'argumento': conversión de 'GLdouble' a 'GLuint'; posible pérdida de datos
+D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Entity.cpp(455,21): warning C4305: 'inicializando': truncamiento de 'double' a 'GLfloat'
+D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Entity.cpp(521,20): warning C4018: '<': no coinciden signed/unsigned
   IG1App.vcxproj -> D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\bin\IG1AppDebug.exe
