@@ -449,21 +449,21 @@ IndexMesh* IndexMesh::generateGrid(GLdouble lado, GLuint nDiv)
 {
     IndexMesh* indexMesh = new IndexMesh();
     indexMesh->mPrimitive = GL_TRIANGLES;
-    indexMesh->mNumVertices = (nDiv + 1) * (nDiv + 1);
+
+    GLuint vPerfil = nDiv + 1;
+    indexMesh->mNumVertices = vPerfil * vPerfil;
     indexMesh->vVertices.reserve(indexMesh->mNumVertices);
     indexMesh->vNormals.reserve(indexMesh->mNumVertices);   //Tamaño igual al vector de vértices
 
     std::vector<glm::dvec3> vertices;  // aux vertex array
     vertices.reserve(indexMesh->mNumVertices);
 
-    for (int i = 0; i < (nDiv + 1); i++) {
-        // Generar la muestra i-ésima de vértices
-       
-        GLdouble nx = i * (lado / nDiv);
+    for (int i = 0; i < vPerfil; i++) {
+        // Generar la muestra i-ésima de vértices       
+        GLdouble nx = i * (lado / (GLdouble)nDiv);
         GLdouble ny;
-        // R_y(theta) es la matriz de rotación alrededor del eje Y
-        for (int j = 0; j < (nDiv + 1); j++) {
-            ny = j * (lado / nDiv);           
+        for (int j = 0; j < vPerfil; j++) {
+            ny = j * (lado / (GLdouble)nDiv);
             vertices.emplace_back(dvec3(nx, ny, 0));
         }
     }
@@ -478,15 +478,23 @@ IndexMesh* IndexMesh::generateGrid(GLdouble lado, GLuint nDiv)
     int indiceMayor = 0;
     for (int i = 0; i < nDiv; i++) {
         for (int j = 0; j < nDiv; j++) {
-            int indice = i * nDiv + j;
+            int indice = i * vPerfil + j ;
+            GLuint aux = indice;
+
+            GLuint aux2 = (indice + vPerfil) % (vPerfil * vPerfil);
+
+            GLuint aux3 = (indice + vPerfil + 1) % (vPerfil * vPerfil);
+
+            GLuint aux4 = indice + 1;
+             
             indexMesh->vIndices[indiceMayor] = indice;
             indiceMayor++;
-            indexMesh->vIndices[indiceMayor] = (indice + nDiv) % (nDiv * nDiv);
+            indexMesh->vIndices[indiceMayor] = (indice + vPerfil) % (vPerfil* vPerfil);
             indiceMayor++;
-            indexMesh->vIndices[indiceMayor] = (indice + nDiv + 1) % (nDiv * nDiv);
+            indexMesh->vIndices[indiceMayor] = (indice + vPerfil + 1) % (vPerfil * vPerfil);
             indiceMayor++;
 
-            indexMesh->vIndices[indiceMayor] = (indice + nDiv + 1) % (nDiv * nDiv);
+            indexMesh->vIndices[indiceMayor] = (indice + vPerfil + 1) % (vPerfil * vPerfil);
             indiceMayor++;
             indexMesh->vIndices[indiceMayor] = indice + 1;
             indiceMayor++;
@@ -497,4 +505,19 @@ IndexMesh* IndexMesh::generateGrid(GLdouble lado, GLuint nDiv)
 
     indexMesh->buildNormalVectors();
     return indexMesh;
+}
+
+IndexMesh* IndexMesh::generateGridTex(GLdouble lado, GLuint nDiv)
+{
+    IndexMesh* mesh = generateGrid(lado, nDiv);
+
+    mesh->vTexCoords.reserve(mesh->mNumVertices);
+   
+    for (int i = 0; i < nDiv + 1; i++) {
+        for (int j = 0; j < nDiv + 1; j++) {
+            mesh->vTexCoords.emplace_back(i, j);
+        }
+    }
+
+    return mesh;
 }

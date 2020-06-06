@@ -576,23 +576,26 @@ void Avion::update()
 
 Grid::Grid(GLdouble lado, GLuint nDiv)
 {
-	mMesh = IndexMesh::generateGrid(lado, nDiv);
+	mMesh = IndexMesh::generateGridTex(lado, nDiv);
 }
 
 void Grid::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-
+		if (mTexture != nullptr)
+			mTexture->bind(GL_REPLACE);			
 		upload(aMat);
 		//glEnable(GL_COLOR_MATERIAL);
 		//glColor3d(mColor.r, mColor.g, mColor.b);
-		glLineWidth(2);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glPolygonMode(GL_BACK, GL_FILL);
 
-		glPolygonMode(GL_FRONT_AND_BACK, GL_POINTS);
 		mMesh->render();
-		glLineWidth(1);
+		if (mTexture != nullptr)
+			mTexture->unbind();
 		//glDisable(GL_COLOR_MATERIAL);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	}
 }

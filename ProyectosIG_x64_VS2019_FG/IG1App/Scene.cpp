@@ -123,7 +123,19 @@ void Scene::init()
 		gObjects.push_back(sphere2);*/
 	}
 	else if (mId == 4) {
-		Grid* grid = new Grid(200, 10);
+
+		//Texturas
+		gTextures.push_back(new Texture());
+		gTextures[0]->load("../Bmps/checker.bmp");
+
+		Grid* grid = new Grid(200, 1);
+		grid->setmColor({ 0.0,0.0,1.0,1.0 });
+		glm::dmat4 mAux = grid->modelMat();
+
+		mAux = translate(mAux, dvec3(-100, 0, -100));
+		mAux = rotate(mAux, radians(90.0), dvec3(1, 0, 0));
+		grid->setModelMat(mAux);
+		grid->setTexture(gTextures[0]);
 		gObjects.push_back(grid);
 	}
 }
