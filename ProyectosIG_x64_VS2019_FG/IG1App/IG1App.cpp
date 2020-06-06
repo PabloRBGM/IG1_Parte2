@@ -229,6 +229,12 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'e':
 		mScene->turnOffLights();
 		break;
+	case 'n':
+		mScene->enableFocoA();
+		break;
+	case 'm':
+		mScene->disableFocoA();
+		break;
 	case 'y':
 		mScene->move();
 		break;

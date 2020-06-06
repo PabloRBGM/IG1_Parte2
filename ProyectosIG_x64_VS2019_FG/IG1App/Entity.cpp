@@ -585,7 +585,7 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 		glEnable(GL_CULL_FACE);
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		if (mTexture != nullptr)
-			mTexture->bind(GL_REPLACE);			
+			mTexture->bind(GL_MODULATE);			
 		upload(aMat);
 		//glEnable(GL_COLOR_MATERIAL);
 		//glColor3d(mColor.r, mColor.g, mColor.b);

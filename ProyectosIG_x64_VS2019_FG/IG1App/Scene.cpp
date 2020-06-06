@@ -130,7 +130,7 @@ void Scene::init()
 		gTextures.push_back(new Texture());
 		gTextures[1]->load("../Bmps/stones.bmp");
 
-		GridCube* gCube = new GridCube(200, 1, gTextures[0], gTextures[1]);
+		GridCube* gCube = new GridCube(200, 10, gTextures[0], gTextures[1]);
 		gObjects.push_back(gCube);
 		/*Grid* grid = new Grid(200, 1);
 		grid->setmColor({ 0.0,0.0,1.0,1.0 });
@@ -159,6 +159,7 @@ void Scene::turnOffLights()
 	spotSceneLight->disable();
 	foco->disable();
 	minero->disable();
+	foco->disable();
 	glm::fvec4 amb = {0.0, 0.0, 0.0, 1.0};
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, value_ptr(amb));
 
@@ -193,6 +194,8 @@ void Scene::free()
 	delete spotSceneLight;
 	delete foco;
 	delete minero;
+	// Extra
+	delete foco_A;
 }
 //-------------------------------------------------------------------------
 void Scene::setGL() 
@@ -242,6 +245,8 @@ void Scene::render(Camera const& cam) const
 		foco->upload(cam.viewMat());
 	if (minero != nullptr)
 		minero->upload(dmat4(1.0));
+	if (foco_A != nullptr)
+		foco_A->upload(cam.viewMat());
 	cam.upload();
 
 
@@ -377,4 +382,13 @@ void Scene::setLights()
 	minero->setDiff(glm::fvec4(1, 1, 1, 1));
 	minero->setSpec(glm::fvec4(0.5, 0.5, 0.5, 1));	
 	minero->disable();
+
+	//Extra
+	foco_A = new SpotLight();
+	foco_A->setPosDir(glm::fvec4(0.0, 0.0, 300.0, 1.0));
+	foco_A->setAmb(glm::fvec4(0, 0, 0, 1));
+	foco_A->setDiff(glm::fvec4(1, 1, 1, 1));
+	foco_A->setSpec(glm::fvec4(0.5, 0.5, 0.5, 1));
+	foco_A->setSpot(glm::fvec3(0.0, 0.0, -1.0), 15.0, 0.5);
+	foco_A->disable();
 }

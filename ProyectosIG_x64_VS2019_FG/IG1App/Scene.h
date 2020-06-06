@@ -52,6 +52,9 @@ public:
 	void disableFoco() { foco->disable(); }
 	void enableMinero() { minero->enable(); }
 	void disableMinero() { minero->disable(); }
+	// Extra
+	void enableFocoA() { foco_A->enable(); }
+	void disableFocoA() { foco_A->disable(); }
 	// Para mover el avion
 	void move() { avion->move(); }
 protected:
@@ -68,6 +71,10 @@ protected:
 	SpotLight* spotSceneLight = nullptr;
 	SpotLight* foco = nullptr;
 	PosLight* minero = nullptr;
+
+	//Extra 
+	SpotLight* foco_A = nullptr;
+
 	// Para mover el avion usamos una referencia
 	Avion* avion = nullptr;
 
