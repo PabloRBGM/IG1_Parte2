@@ -127,8 +127,12 @@ void Scene::init()
 		//Texturas
 		gTextures.push_back(new Texture());
 		gTextures[0]->load("../Bmps/checker.bmp");
+		gTextures.push_back(new Texture());
+		gTextures[1]->load("../Bmps/stones.bmp");
 
-		Grid* grid = new Grid(200, 1);
+		GridCube* gCube = new GridCube(200, 1, gTextures[0], gTextures[1]);
+		gObjects.push_back(gCube);
+		/*Grid* grid = new Grid(200, 1);
 		grid->setmColor({ 0.0,0.0,1.0,1.0 });
 		glm::dmat4 mAux = grid->modelMat();
 
@@ -136,7 +140,7 @@ void Scene::init()
 		mAux = rotate(mAux, radians(90.0), dvec3(1, 0, 0));
 		grid->setModelMat(mAux);
 		grid->setTexture(gTextures[0]);
-		gObjects.push_back(grid);
+		gObjects.push_back(grid);*/
 	}
 }
 

@@ -280,4 +280,13 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 
+class GridCube : public CompoundEntity {
+public:
+	explicit GridCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2);
+	~GridCube() { };
+private:
+	Texture* sideTex = nullptr;
+	Texture* tapaTex = nullptr;
+};
+
 #endif //_H_Entities_H_

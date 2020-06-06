@@ -582,6 +582,7 @@ Grid::Grid(GLdouble lado, GLuint nDiv)
 void Grid::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
+		glEnable(GL_CULL_FACE);
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		if (mTexture != nullptr)
 			mTexture->bind(GL_REPLACE);			
@@ -589,6 +590,7 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 		//glEnable(GL_COLOR_MATERIAL);
 		//glColor3d(mColor.r, mColor.g, mColor.b);
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glCullFace(GL_BACK);
 		glPolygonMode(GL_BACK, GL_FILL);
 
 		mMesh->render();
@@ -596,6 +598,66 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 			mTexture->unbind();
 		//glDisable(GL_COLOR_MATERIAL);
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glDisable(GL_CULL_FACE);
+
 
 	}
+}
+
+GridCube::GridCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2)
+{
+	GLdouble mitad = lado / 2;
+
+	// Bottom
+	Grid* botGrid = new Grid(lado, nDiv);
+	glm::dmat4 mAux = botGrid->modelMat();
+	mAux = translate(mAux, dvec3(-mitad, -mitad, -mitad));
+	mAux = rotate(mAux, radians(90.0), dvec3(1, 0, 0));
+	botGrid->setModelMat(mAux);
+	botGrid->setTexture(t1);
+	addEntity(botGrid);
+
+	// Top
+	Grid* topGrid = new Grid(lado, nDiv);
+	mAux = topGrid->modelMat();
+	mAux = translate(mAux, dvec3(-mitad, mitad, mitad));
+	mAux = rotate(mAux, radians(-90.0), dvec3(1, 0, 0));
+	topGrid->setModelMat(mAux);
+	topGrid->setTexture(t1);
+	addEntity(topGrid);
+
+	// Front
+	Grid* frontGrid = new Grid(lado, nDiv);
+	mAux = frontGrid->modelMat();
+	mAux = translate(mAux, dvec3(-mitad, -mitad, mitad));
+	frontGrid->setModelMat(mAux);
+	frontGrid->setTexture(t2);
+	addEntity(frontGrid);
+
+	// Back
+	Grid* backGrid = new Grid(lado, nDiv);
+	mAux = backGrid->modelMat();
+	mAux = translate(mAux, dvec3(mitad, -mitad, -mitad));
+	mAux = rotate(mAux, radians(180.0), dvec3(0, 1, 0));
+	backGrid->setModelMat(mAux);
+	backGrid->setTexture(t2);
+	addEntity(backGrid);
+
+	// Right
+	Grid* rightGrid = new Grid(lado, nDiv);
+	mAux = rightGrid->modelMat();
+	mAux = translate(mAux, dvec3(mitad, -mitad, mitad));
+	mAux = rotate(mAux, radians(90.0), dvec3(0, 1, 0));
+	rightGrid->setModelMat(mAux);
+	rightGrid->setTexture(t2);
+	addEntity(rightGrid);
+
+	// Left
+	Grid* leftGrid = new Grid(lado, nDiv);
+	mAux = leftGrid->modelMat();
+	mAux = translate(mAux, dvec3(-mitad, -mitad, -mitad));
+	mAux = rotate(mAux, radians(-90.0), dvec3(0, 1, 0));
+	leftGrid->setModelMat(mAux);
+	leftGrid->setTexture(t2);
+	addEntity(leftGrid);
 }
