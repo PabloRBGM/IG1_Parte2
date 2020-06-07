@@ -130,7 +130,7 @@ void Scene::init()
 		gTextures.push_back(new Texture());
 		gTextures[1]->load("../Bmps/stones.bmp");
 
-		GridCube* gCube = new GridCube(200, 10, gTextures[0], gTextures[1]);
+		GridCube* gCube = new GridCube(200, 100, gTextures[0], gTextures[1]);
 		gObjects.push_back(gCube);
 		/*Grid* grid = new Grid(200, 1);
 		grid->setmColor({ 0.0,0.0,1.0,1.0 });
