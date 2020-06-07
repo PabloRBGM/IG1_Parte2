@@ -159,7 +159,7 @@ void Scene::turnOffLights()
 	spotSceneLight->disable();
 	foco->disable();
 	minero->disable();
-	foco->disable();
+	foco_A->disable();
 	glm::fvec4 amb = {0.0, 0.0, 0.0, 1.0};
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, value_ptr(amb));
 
@@ -389,6 +389,6 @@ void Scene::setLights()
 	foco_A->setAmb(glm::fvec4(0, 0, 0, 1));
 	foco_A->setDiff(glm::fvec4(1, 1, 1, 1));
 	foco_A->setSpec(glm::fvec4(0.5, 0.5, 0.5, 1));
-	foco_A->setSpot(glm::fvec3(0.0, 0.0, -1.0), 15.0, 0.5);
+	foco_A->setSpot(glm::fvec3(0.0, 0.0, -1.0), 15.0, 2);
 	foco_A->disable();
 }

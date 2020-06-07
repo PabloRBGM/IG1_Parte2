@@ -72,7 +72,8 @@ protected:
 	SpotLight* foco = nullptr;
 	PosLight* minero = nullptr;
 
-	//Extra 
+	// Extra 
+	// Usamos las teclas 'n' y 'm' para activar y desactivar este foco
 	SpotLight* foco_A = nullptr;
 
 	// Para mover el avion usamos una referencia

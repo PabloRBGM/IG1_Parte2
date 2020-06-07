@@ -1,5 +1,5 @@
-﻿  Scene.cpp
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Scene.cpp(14,33): warning C4305: 'argumento': truncamiento de 'double' a 'GLclampf'
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Scene.cpp(340,39): warning C4244: 'argumento': conversión de 'GLdouble' a 'GLfloat'; posible pérdida de datos
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Scene.cpp(341,41): warning C4244: 'argumento': conversión de 'GLdouble' a 'GLfloat'; posible pérdida de datos
+﻿  Entity.cpp
+D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Entity.cpp(165,41): warning C4244: 'argumento': conversión de 'GLdouble' a 'GLuint'; posible pérdida de datos
+D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Entity.cpp(455,21): warning C4305: 'inicializando': truncamiento de 'double' a 'GLfloat'
+D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Entity.cpp(521,20): warning C4018: '<': no coinciden signed/unsigned
   IG1App.vcxproj -> D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\bin\IG1AppDebug.exe

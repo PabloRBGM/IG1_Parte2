@@ -607,7 +607,7 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 GridCube::GridCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2)
 {
 	GLdouble mitad = lado / 2;
-
+	glm::dmat4 mI = glm::dmat4(1.0);
 	// Bottom
 	Grid* botGrid = new Grid(lado, nDiv);
 	glm::dmat4 mAux = botGrid->modelMat();
@@ -620,8 +620,9 @@ GridCube::GridCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2)
 	// Top
 	Grid* topGrid = new Grid(lado, nDiv);
 	mAux = topGrid->modelMat();
-	mAux = translate(mAux, dvec3(-mitad, mitad, mitad));
-	mAux = rotate(mAux, radians(-90.0), dvec3(1, 0, 0));
+	mAux = rotate(mAux, radians(90.0), dvec3(0, 0, 1));
+	mAux = translate(mAux, dvec3(mitad, -mitad, mitad));
+	mAux = rotate(mAux, radians(90.0), dvec3(0, 1, 0));
 	topGrid->setModelMat(mAux);
 	topGrid->setTexture(t1);
 	addEntity(topGrid);
@@ -629,6 +630,7 @@ GridCube::GridCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2)
 	// Front
 	Grid* frontGrid = new Grid(lado, nDiv);
 	mAux = frontGrid->modelMat();
+	mAux = rotate(mAux, radians(90.0), dvec3(0, 0, 1));
 	mAux = translate(mAux, dvec3(-mitad, -mitad, mitad));
 	frontGrid->setModelMat(mAux);
 	frontGrid->setTexture(t2);
@@ -637,8 +639,9 @@ GridCube::GridCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2)
 	// Back
 	Grid* backGrid = new Grid(lado, nDiv);
 	mAux = backGrid->modelMat();
-	mAux = translate(mAux, dvec3(mitad, -mitad, -mitad));
-	mAux = rotate(mAux, radians(180.0), dvec3(0, 1, 0));
+	mAux = rotate(mAux, radians(90.0), dvec3(0, 0, 1));
+	mAux = rotate(mAux, radians(180.0), dvec3(1, 0, 0));
+	mAux = translate(mAux, dvec3(-mitad, -mitad, mitad));
 	backGrid->setModelMat(mAux);
 	backGrid->setTexture(t2);
 	addEntity(backGrid);
@@ -646,8 +649,9 @@ GridCube::GridCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2)
 	// Right
 	Grid* rightGrid = new Grid(lado, nDiv);
 	mAux = rightGrid->modelMat();
-	mAux = translate(mAux, dvec3(mitad, -mitad, mitad));
-	mAux = rotate(mAux, radians(90.0), dvec3(0, 1, 0));
+	mAux = rotate(mAux, radians(90.0), dvec3(0, 0, 1));
+	mAux = rotate(mAux, radians(90.0), dvec3(1, 0, 0));
+	mAux = translate(mAux, dvec3(-mitad, -mitad, mitad));
 	rightGrid->setModelMat(mAux);
 	rightGrid->setTexture(t2);
 	addEntity(rightGrid);
@@ -655,8 +659,9 @@ GridCube::GridCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2)
 	// Left
 	Grid* leftGrid = new Grid(lado, nDiv);
 	mAux = leftGrid->modelMat();
-	mAux = translate(mAux, dvec3(-mitad, -mitad, -mitad));
-	mAux = rotate(mAux, radians(-90.0), dvec3(0, 1, 0));
+	mAux = rotate(mAux, radians(90.0), dvec3(0, 0, 1));
+	mAux = rotate(mAux, radians(-90.0), dvec3(1, 0, 0));
+	mAux = translate(mAux, dvec3(-mitad, -mitad, mitad));
 	leftGrid->setModelMat(mAux);
 	leftGrid->setTexture(t2);
 	addEntity(leftGrid);
