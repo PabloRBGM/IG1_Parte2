@@ -78,7 +78,7 @@ protected:
 
 	// Para mover el avion usamos una referencia
 	Avion* avion = nullptr;
-
+	SirenCube* sirenCube = nullptr;
 	// Metodos y variables sin la clase Light
 	void sceneDirLight(Camera const& cam) const;
 	void scenePosLight(Camera const& cam) const;

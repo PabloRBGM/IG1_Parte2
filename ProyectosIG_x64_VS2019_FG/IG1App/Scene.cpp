@@ -130,8 +130,21 @@ void Scene::init()
 		gTextures.push_back(new Texture());
 		gTextures[1]->load("../Bmps/stones.bmp");
 
-		GridCube* gCube = new GridCube(200, 100, gTextures[0], gTextures[1]);
-		gObjects.push_back(gCube);
+		sirenCube = new SirenCube(200, 100, gTextures[0], gTextures[1]);
+		glm::dmat4 mAuxSCube = sirenCube->modelMat();
+		mAuxSCube = translate(mAuxSCube, dvec3(0, 115, 0));
+		mAuxSCube = scale(mAuxSCube, dvec3(0.2, 0.2, 0.2));
+		sirenCube->setModelMat(mAuxSCube);
+		gObjects.push_back(sirenCube);
+
+
+		Esfera* esfera = new Esfera(100.0, 200, 200);
+		esfera->setmColor(dvec4(0.0, 1.0, 1.0, 1.0));
+		Material* goldMat = new Material();
+		goldMat->setGold();
+		//goldMat->setCopper();
+		esfera->setMaterial(goldMat);//pone material a la esfera
+		gObjects.push_back(esfera);
 		/*Grid* grid = new Grid(200, 1);
 		grid->setmColor({ 0.0,0.0,1.0,1.0 });
 		glm::dmat4 mAux = grid->modelMat();
@@ -389,6 +402,6 @@ void Scene::setLights()
 	foco_A->setAmb(glm::fvec4(0, 0, 0, 1));
 	foco_A->setDiff(glm::fvec4(1, 1, 1, 1));
 	foco_A->setSpec(glm::fvec4(0.5, 0.5, 0.5, 1));
-	foco_A->setSpot(glm::fvec3(0.0, 0.0, -1.0), 15.0, 2);
+	foco_A->setSpot(glm::fvec3(0.0, 0.0, -1.0), 15.0, 0.5);
 	foco_A->disable();
 }

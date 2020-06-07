@@ -289,4 +289,11 @@ private:
 	Texture* tapaTex = nullptr;
 };
 
+class SirenCube : public CompoundEntity {
+public:
+	explicit SirenCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2);
+	~SirenCube() { };
+};
+
+
 #endif //_H_Entities_H_

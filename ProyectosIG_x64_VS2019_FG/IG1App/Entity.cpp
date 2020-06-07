@@ -607,7 +607,6 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 GridCube::GridCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2)
 {
 	GLdouble mitad = lado / 2;
-	glm::dmat4 mI = glm::dmat4(1.0);
 	// Bottom
 	Grid* botGrid = new Grid(lado, nDiv);
 	glm::dmat4 mAux = botGrid->modelMat();
@@ -665,4 +664,16 @@ GridCube::GridCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2)
 	leftGrid->setModelMat(mAux);
 	leftGrid->setTexture(t2);
 	addEntity(leftGrid);
+}
+
+SirenCube::SirenCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2)
+{
+	GridCube* gCube = new GridCube(lado, nDiv, t1, t2);
+	addEntity(gCube);
+	Esfera* siren = new Esfera(lado / 4, 100, 100);
+	siren->setmColor(dvec4(1.0, 0.0, 0.0, 1.0));
+	glm::dmat4 mAux = siren->modelMat();
+	mAux = translate(mAux, dvec3(0, lado / 2, 00));
+	siren->setModelMat(mAux);
+	addEntity(siren);
 }
