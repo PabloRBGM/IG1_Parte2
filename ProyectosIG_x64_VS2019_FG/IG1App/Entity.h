@@ -291,8 +291,19 @@ private:
 
 class SirenCube : public CompoundEntity {
 public:
-	explicit SirenCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2);
+	explicit SirenCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2, GLdouble rr = 120);
 	~SirenCube() { };
+
+	void update() override;
+	void move() { isMoving = !isMoving; }
+	void setLight(SpotLight* l) { sirena = l; }
+
+private:
+	SpotLight* sirena = nullptr;
+	GLdouble rad = 0.0;
+	GLdouble globalAngle = 0.0;
+	GLdouble localAngle = 0.0;
+	bool isMoving = false;
 };
 
 

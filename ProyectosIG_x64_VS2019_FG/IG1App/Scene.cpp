@@ -122,7 +122,7 @@ void Scene::init()
 		sphere2->setModelMat(mAuxC4);
 		gObjects.push_back(sphere2);*/
 	}
-	else if (mId == 4) {
+	else if (mId == 4) {	//Extra
 
 		//Texturas
 		gTextures.push_back(new Texture());
@@ -130,11 +130,17 @@ void Scene::init()
 		gTextures.push_back(new Texture());
 		gTextures[1]->load("../Bmps/stones.bmp");
 
-		sirenCube = new SirenCube(200, 100, gTextures[0], gTextures[1]);
+		sirenCube = new SirenCube(200, 100, gTextures[0], gTextures[1], 130.0);
 		glm::dmat4 mAuxSCube = sirenCube->modelMat();
-		mAuxSCube = translate(mAuxSCube, dvec3(0, 115, 0));
-		mAuxSCube = scale(mAuxSCube, dvec3(0.2, 0.2, 0.2));
+		mAuxSCube = translate(mAuxSCube, dvec3(0, 130, 0));
+		mAuxSCube = scale(mAuxSCube, dvec3(0.1, 0.1, 0.1));
 		sirenCube->setModelMat(mAuxSCube);
+
+		//foco en la misma posición que el avion
+		sirena->setPosDir(fvec3(0, 200, 0));
+		sirena->setSpot(glm::fvec3(0.0, -1.0,0.0), 10.0, 0.5);
+
+		sirenCube->setLight(sirena);
 		gObjects.push_back(sirenCube);
 
 
@@ -173,6 +179,7 @@ void Scene::turnOffLights()
 	foco->disable();
 	minero->disable();
 	foco_A->disable();
+	sirena->disable();
 	glm::fvec4 amb = {0.0, 0.0, 0.0, 1.0};
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, value_ptr(amb));
 
@@ -209,6 +216,7 @@ void Scene::free()
 	delete minero;
 	// Extra
 	delete foco_A;
+	delete sirena;
 }
 //-------------------------------------------------------------------------
 void Scene::setGL() 
@@ -260,6 +268,8 @@ void Scene::render(Camera const& cam) const
 		minero->upload(dmat4(1.0));
 	if (foco_A != nullptr)
 		foco_A->upload(cam.viewMat());
+	if (sirena != nullptr)
+		sirena->upload(cam.viewMat());
 	cam.upload();
 
 
@@ -404,4 +414,13 @@ void Scene::setLights()
 	foco_A->setSpec(glm::fvec4(0.5, 0.5, 0.5, 1));
 	foco_A->setSpot(glm::fvec3(0.0, 0.0, -1.0), 15.0, 0.5);
 	foco_A->disable();
+
+	//Extra
+	sirena = new SpotLight();
+	sirena->setPosDir(glm::fvec4(0.0, 110.0, 0.0, 1.0));
+	sirena->setAmb(glm::fvec4(0, 0, 0, 1));
+	sirena->setDiff(glm::fvec4(1, 1, 1, 1));
+	sirena->setSpec(glm::fvec4(0.5, 0.5, 0.5, 1));
+	sirena->setSpot(glm::fvec3(0.0, 0.0, 1), 20.0, 0.5);
+	sirena->disable();
 }

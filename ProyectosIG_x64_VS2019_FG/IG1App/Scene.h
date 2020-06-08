@@ -48,15 +48,18 @@ public:
 	void disablePosLight() { positionalLight->disable(); }
 	void enableSpotLight() { spotSceneLight->enable(); }
 	void disableSpotLight() { spotSceneLight->disable(); }
-	void enableFoco() { foco->enable(); }
-	void disableFoco() { foco->disable(); }
+	void enableFoco() { if(foco != nullptr) foco->enable(); }
+	void disableFoco() { if (foco != nullptr) foco->disable(); }
 	void enableMinero() { minero->enable(); }
 	void disableMinero() { minero->disable(); }
 	// Extra
 	void enableFocoA() { foco_A->enable(); }
 	void disableFocoA() { foco_A->disable(); }
+	void enableSirena() { sirena->enable(); }
+	void disableSirena() { sirena->disable(); }
 	// Para mover el avion
-	void move() { avion->move(); }
+	void move() { if (avion != nullptr) avion->move(); }
+	void sirenMove() { if(sirenCube != nullptr) sirenCube->move(); }
 protected:
 	void free();
 	void setGL();
@@ -71,12 +74,14 @@ protected:
 	SpotLight* spotSceneLight = nullptr;
 	SpotLight* foco = nullptr;
 	PosLight* minero = nullptr;
+	
 
 	// Extra 
 	// Usamos las teclas 'n' y 'm' para activar y desactivar este foco
 	SpotLight* foco_A = nullptr;
-
+	SpotLight* sirena = nullptr;
 	// Para mover el avion usamos una referencia
+	// Para mover el sirenCube tambien
 	Avion* avion = nullptr;
 	SirenCube* sirenCube = nullptr;
 	// Metodos y variables sin la clase Light

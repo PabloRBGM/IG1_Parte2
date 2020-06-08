@@ -565,8 +565,10 @@ void Avion::update()
 		aux = scale(aux, dvec3(0.2, 0.2, 0.2));
 		mModelMat = aux;
 		// mover el foco
-		foco->setPosDir(rad * translation);
-		foco->setSpot(-translation, 20.0, 0.5);
+		if (foco != nullptr) {
+			foco->setPosDir(rad * translation);
+			foco->setSpot(-translation, 20.0, 0.5);
+		}
 
 
 		globalAngle += 2;//increase globalAngle
@@ -666,7 +668,7 @@ GridCube::GridCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2)
 	addEntity(leftGrid);
 }
 
-SirenCube::SirenCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2)
+SirenCube::SirenCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2, GLdouble rr) : rad(rr)
 {
 	GridCube* gCube = new GridCube(lado, nDiv, t1, t2);
 	addEntity(gCube);
@@ -676,4 +678,30 @@ SirenCube::SirenCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2)
 	mAux = translate(mAux, dvec3(0, lado / 2, 00));
 	siren->setModelMat(mAux);
 	addEntity(siren);
+}
+
+void SirenCube::update()
+{
+	if (isMoving) {
+		dmat4 mI(1.0);
+		GLdouble tcLado = 15;
+	
+		//  movemos el toda la entidad
+		dmat4 aux = mModelMat;
+		dvec3 translation = dvec3(0.0, rad * cos(radians(globalAngle)), rad * sin(radians(globalAngle)));
+		aux = translate(mI, translation); //move to relPos
+		aux = rotate(aux, radians(localAngle), dvec3(1.0, 0.0, 0.0));
+		aux = scale(aux, dvec3(0.1, 0.1, 0.1));
+		mModelMat = aux;
+		// mover la sirena
+		if (sirena != nullptr) {
+			translation = dvec3(0.0,  rad * cos(radians(globalAngle)) + cos(radians(globalAngle)) * 200, rad * sin(radians(globalAngle)) + sin(radians(globalAngle))* 200.0);
+			sirena->setPosDir(translation);
+			//translation.x = -5.0;
+			sirena->setSpot( -translation, 10.0, 0.5);
+		}
+
+		globalAngle += 2;//increase globalAngle
+		localAngle += 2;//increase localAngle 
+	}
 }

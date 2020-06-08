@@ -216,9 +216,11 @@ void IG1App::key(unsigned char key, int x, int y)
 		break;
 	case 't':
 		mScene->enableFoco();
+		mScene->enableSirena();
 		break;
 	case 'g':
 		mScene->disableFoco();
+		mScene->disableSirena();
 		break;
 	case 'd':
 		mScene->enableMinero();
@@ -237,6 +239,9 @@ void IG1App::key(unsigned char key, int x, int y)
 		break;
 	case 'y':
 		mScene->move();
+		break;
+	case 'j':
+		mScene->sirenMove();
 		break;
 	default:
 		need_redisplay = false;

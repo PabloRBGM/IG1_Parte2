@@ -453,6 +453,7 @@ IndexMesh* IndexMesh::generateGrid(GLdouble lado, GLuint nDiv)
     GLuint vPerfil = nDiv + 1;
     indexMesh->mNumVertices = vPerfil * vPerfil;
     indexMesh->vVertices.reserve(indexMesh->mNumVertices);
+    indexMesh->vColors.reserve(indexMesh->mNumVertices);
     indexMesh->vNormals.reserve(indexMesh->mNumVertices);   //Tamaño igual al vector de vértices
 
     std::vector<glm::dvec3> vertices;  // aux vertex array
