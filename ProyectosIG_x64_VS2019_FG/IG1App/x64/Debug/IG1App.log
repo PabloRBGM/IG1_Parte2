@@ -1,21 +1,5 @@
-﻿  Mesh.cpp
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(95,23): warning C4018: '<': no coinciden signed/unsigned
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(97,30): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(115,23): warning C4018: '<': no coinciden signed/unsigned
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(184,33): warning C4244: '=': conversión de 'GLdouble' a 'GLuint'; posible pérdida de datos
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(190,23): warning C4018: '<': no coinciden signed/unsigned
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(194,50): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(208,23): warning C4018: '<': no coinciden signed/unsigned
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(296,20): warning C4018: '<': no coinciden signed/unsigned
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(374,23): warning C4018: '<': no coinciden signed/unsigned
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(378,23): warning C4018: '<': no coinciden signed/unsigned
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(390,23): warning C4018: '<': no coinciden signed/unsigned
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(419,23): warning C4018: '<': no coinciden signed/unsigned
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(462,23): warning C4018: '<': no coinciden signed/unsigned
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(466,27): warning C4018: '<': no coinciden signed/unsigned
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(473,23): warning C4018: '<': no coinciden signed/unsigned
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(480,23): warning C4018: '<': no coinciden signed/unsigned
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(481,27): warning C4018: '<': no coinciden signed/unsigned
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(518,23): warning C4018: '<': no coinciden signed/unsigned
-D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(519,27): warning C4018: '<': no coinciden signed/unsigned
-  IG1App.vcxproj -> D:\Pablo\2º\2ºCuatri\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\bin\IG1AppDebug.exe
+﻿  Entity.cpp
+C:\Users\andre\OneDrive\Escritorio\UCM\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Entity.cpp(165,41): warning C4244:  'argumento': conversión de 'GLdouble' a 'GLuint'; posible pérdida de datos
+C:\Users\andre\OneDrive\Escritorio\UCM\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Entity.cpp(455,21): warning C4305:  'inicializando': truncamiento de 'double' a 'GLfloat'
+C:\Users\andre\OneDrive\Escritorio\UCM\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\IG1App\Entity.cpp(521,20): warning C4018:  '<': no coinciden signed/unsigned
+  IG1App.vcxproj -> C:\Users\andre\OneDrive\Escritorio\UCM\IG\IG1_Parte2\ProyectosIG_x64_VS2019_FG\bin\IG1AppDebug.exe

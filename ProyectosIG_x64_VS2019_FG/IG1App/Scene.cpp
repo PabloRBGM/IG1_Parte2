@@ -133,11 +133,12 @@ void Scene::init()
 		sirenCube = new SirenCube(200, 100, gTextures[0], gTextures[1], 130.0);
 		glm::dmat4 mAuxSCube = sirenCube->modelMat();
 		mAuxSCube = translate(mAuxSCube, dvec3(0, 130, 0));
+		//mAuxSCube = rotate(mAuxSCube, radians(180.0), dvec3(1, 0, 0));
 		mAuxSCube = scale(mAuxSCube, dvec3(0.1, 0.1, 0.1));
 		sirenCube->setModelMat(mAuxSCube);
 
 		//foco en la misma posición que el avion
-		sirena->setPosDir(fvec3(0, 200, 0));
+		sirena->setPosDir(fvec3(0, 145, 0));
 		sirena->setSpot(glm::fvec3(0.0, -1.0,0.0), 10.0, 0.5);
 
 		sirenCube->setLight(sirena);
@@ -146,10 +147,10 @@ void Scene::init()
 
 		Esfera* esfera = new Esfera(100.0, 200, 200);
 		esfera->setmColor(dvec4(0.0, 1.0, 1.0, 1.0));
-		Material* goldMat = new Material();
-		goldMat->setGold();
+		//Material* goldMat = new Material();
+		//goldMat->setGold();
 		//goldMat->setCopper();
-		esfera->setMaterial(goldMat);//pone material a la esfera
+		//esfera->setMaterial(goldMat);//pone material a la esfera
 		gObjects.push_back(esfera);
 		/*Grid* grid = new Grid(200, 1);
 		grid->setmColor({ 0.0,0.0,1.0,1.0 });

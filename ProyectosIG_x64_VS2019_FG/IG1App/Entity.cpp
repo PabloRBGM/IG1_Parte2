@@ -609,9 +609,10 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 GridCube::GridCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2)
 {
 	GLdouble mitad = lado / 2;
+	glm::dmat4 mAux;
 	// Bottom
 	Grid* botGrid = new Grid(lado, nDiv);
-	glm::dmat4 mAux = botGrid->modelMat();
+	 mAux = botGrid->modelMat();
 	mAux = translate(mAux, dvec3(-mitad, -mitad, -mitad));
 	mAux = rotate(mAux, radians(90.0), dvec3(1, 0, 0));
 	botGrid->setModelMat(mAux);
@@ -668,14 +669,14 @@ GridCube::GridCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2)
 	addEntity(leftGrid);
 }
 
-SirenCube::SirenCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2, GLdouble rr) : rad(rr)
+SirenCube::SirenCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2, GLdouble rr, GLdouble posSirena) : rad(rr), posSirena_(posSirena)
 {
 	GridCube* gCube = new GridCube(lado, nDiv, t1, t2);
 	addEntity(gCube);
 	Esfera* siren = new Esfera(lado / 4, 100, 100);
 	siren->setmColor(dvec4(1.0, 0.0, 0.0, 1.0));
 	glm::dmat4 mAux = siren->modelMat();
-	mAux = translate(mAux, dvec3(0, lado / 2, 00));
+	mAux = translate(mAux, dvec3(0, lado / 2, 0.0));
 	siren->setModelMat(mAux);
 	addEntity(siren);
 }
@@ -684,7 +685,7 @@ void SirenCube::update()
 {
 	if (isMoving) {
 		dmat4 mI(1.0);
-		GLdouble tcLado = 15;
+		//GLdouble tcLado = 15;
 	
 		//  movemos el toda la entidad
 		dmat4 aux = mModelMat;
@@ -695,7 +696,7 @@ void SirenCube::update()
 		mModelMat = aux;
 		// mover la sirena
 		if (sirena != nullptr) {
-			translation = dvec3(0.0,  rad * cos(radians(globalAngle)) + cos(radians(globalAngle)) * 200, rad * sin(radians(globalAngle)) + sin(radians(globalAngle))* 200.0);
+			translation = dvec3(0.0,  rad * cos(radians(globalAngle)) + posSirena_* cos(radians(globalAngle)) , rad * sin(radians(globalAngle)) + posSirena_ * sin(radians(globalAngle)));
 			sirena->setPosDir(translation);
 			//translation.x = -5.0;
 			sirena->setSpot( -translation, 10.0, 0.5);

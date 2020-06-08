@@ -48,15 +48,15 @@ public:
 	void disablePosLight() { positionalLight->disable(); }
 	void enableSpotLight() { spotSceneLight->enable(); }
 	void disableSpotLight() { spotSceneLight->disable(); }
-	void enableFoco() { if(foco != nullptr) foco->enable(); }
-	void disableFoco() { if (foco != nullptr) foco->disable(); }
+	void enableFoco() { if( avion != nullptr) foco->enable(); }
+	void disableFoco() { if (avion != nullptr) foco->disable(); }
 	void enableMinero() { minero->enable(); }
 	void disableMinero() { minero->disable(); }
 	// Extra
 	void enableFocoA() { foco_A->enable(); }
 	void disableFocoA() { foco_A->disable(); }
-	void enableSirena() { sirena->enable(); }
-	void disableSirena() { sirena->disable(); }
+	void enableSirena() { if (sirenCube != nullptr) sirena->enable(); }
+	void disableSirena() { if (sirenCube != nullptr) sirena->disable(); }
 	// Para mover el avion
 	void move() { if (avion != nullptr) avion->move(); }
 	void sirenMove() { if(sirenCube != nullptr) sirenCube->move(); }
