@@ -680,49 +680,27 @@ SirenCube::SirenCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2, GLdou
 	mAux = translate(mAux, dvec3(0, offset_, 0.0));
 	siren->setModelMat(mAux);
 	addEntity(siren);
-	//sirena = new SpotLight();
-	//sirena->setAmb(glm::fvec4(0, 0, 0, 1));
-	//sirena->setDiff(glm::fvec4(1, 1, 1, 1));
-	//sirena->setSpec(glm::fvec4(0.5, 0.5, 0.5, 1));
+	
 }
 
 void SirenCube::update()
 {
 	if (isMoving) {
 		dmat4 mI(1.0);
-		//posicionamos la luz
-		sirena->setPosDir(fvec3((rad + offset_) * sin(radians(globalAngle)), 0.0, (rad + offset_) * cos(radians(globalAngle))));
-
+		//posicionamos la luz, el offset es para colocarlo dentro de la sirena(la esfera roja) y no ilumine nada del cubo
+		sirena->setPosDir(fvec3((rad + offset_) * sin(radians(lightAngle)), 0.0, (rad + offset_) * cos(radians(lightAngle))));
+		
 		//  movemos el toda la entidad
 		dmat4 aux = mModelMat;
-		dvec3 translation = dvec3(0.0, rad * cos(radians(lightAngle)), rad * sin(radians(lightAngle)));
+		dvec3 translation = dvec3(0.0, rad * cos(radians(globalAngle)), rad * sin(radians(globalAngle)));
 		aux = translate(mI, translation); //move to relPos
-		aux = rotate(aux, radians(lightAngle), dvec3(1.0, 0.0, 0.0));
+		aux = rotate(aux, radians(globalAngle), dvec3(1.0, 0.0, 0.0));
 		aux = scale(aux, dvec3(0.1, 0.1, 0.1));
 		mModelMat = aux;
 
-		//sirena->setPosDir(fvec3(0.0, rad * cos(radians(lightAngle)) , rad * sin(radians(lightAngle))));
-		//sirena->setSpot(fvec3(sin(radians(lightAngle)),/* -cos(radians(lightAngle))*/-1.0, sin(radians(lightAngle))), 30.0, 0.5);
-		//if (lightAngle >= 180) lightAngle = 0;
-		// mover la sirena
-	//	if (sirena != nullptr) {
-			//glm::f64 x=translation.x += 10;
-			//translation = dvec3(0.0,  rad * cos(radians(globalAngle)) + posSirena_* cos(radians(globalAngle)) , rad * sin(radians(globalAngle)) + posSirena_ * sin(radians(globalAngle)));
-			//dvec3 t2= translation;
-			//if(t2.x < -45) t2.x = -45;
-
-				// if (t2.y < -200) t2.y = -200;
-				 
-			
-
-			//sirena->setSpot( -t2, 10.0, 0.5);
-			
-		//}
-
-		globalAngle += 2;//increase globalAngle
-		
-		localAngle += 0.2;//increase localAngle 
-		lightAngle += 0.2;
+		// tal y como lo hemos hecho, el angulo que de rotacion y translacion tienen que ser el mismo
+		globalAngle += 0.2;//incrementamos globalAngle		
+		lightAngle += 2;//incrementamos el lightAngle 
 	}
 }
 
@@ -731,7 +709,10 @@ void SirenCube::render(glm::dmat4 const& modelViewMat) const
 	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 
 	upload(aMat);
-	sirena->upload(aMat);
+
+	//esto hace que el angulo de rotacion y translacion tengan que ser el mismo
+	if(sirena!=nullptr)
+		sirena->upload(aMat);
 
 
 	for (Abs_Entity* el : gObjects) {

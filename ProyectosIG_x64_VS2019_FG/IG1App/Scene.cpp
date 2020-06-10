@@ -271,8 +271,8 @@ void Scene::render(Camera const& cam) const
 		minero->upload(dmat4(1.0));
 	if (foco_A != nullptr)
 		foco_A->upload(cam.viewMat());
-	if (sirena != nullptr)
-		sirena->upload(cam.viewMat());
+	/*if (sirena != nullptr)
+		sirena->upload(cam.viewMat());*/
 	cam.upload();
 
 
