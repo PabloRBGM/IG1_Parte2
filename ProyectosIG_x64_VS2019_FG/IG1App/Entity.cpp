@@ -2,6 +2,7 @@
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
 #include "Light.h"
+#include <iostream>
 using namespace glm;
 
 //-------------------------------------------------------------------------
@@ -669,40 +670,71 @@ GridCube::GridCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2)
 	addEntity(leftGrid);
 }
 
-SirenCube::SirenCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2, GLdouble rr, GLdouble posSirena) : rad(rr), posSirena_(posSirena)
+SirenCube::SirenCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2, GLdouble rr) : rad(rr), offset_(lado/2)
 {
 	GridCube* gCube = new GridCube(lado, nDiv, t1, t2);
 	addEntity(gCube);
 	Esfera* siren = new Esfera(lado / 4, 100, 100);
 	siren->setmColor(dvec4(1.0, 0.0, 0.0, 1.0));
 	glm::dmat4 mAux = siren->modelMat();
-	mAux = translate(mAux, dvec3(0, lado / 2, 0.0));
+	mAux = translate(mAux, dvec3(0, offset_, 0.0));
 	siren->setModelMat(mAux);
 	addEntity(siren);
+	//sirena = new SpotLight();
+	//sirena->setAmb(glm::fvec4(0, 0, 0, 1));
+	//sirena->setDiff(glm::fvec4(1, 1, 1, 1));
+	//sirena->setSpec(glm::fvec4(0.5, 0.5, 0.5, 1));
 }
 
 void SirenCube::update()
 {
 	if (isMoving) {
 		dmat4 mI(1.0);
-		//GLdouble tcLado = 15;
-	
+		//posicionamos la luz
+		sirena->setPosDir(fvec3((rad + offset_) * sin(radians(globalAngle)), 0.0, (rad + offset_) * cos(radians(globalAngle))));
+
 		//  movemos el toda la entidad
 		dmat4 aux = mModelMat;
-		dvec3 translation = dvec3(0.0, rad * cos(radians(globalAngle)), rad * sin(radians(globalAngle)));
+		dvec3 translation = dvec3(0.0, rad * cos(radians(lightAngle)), rad * sin(radians(lightAngle)));
 		aux = translate(mI, translation); //move to relPos
-		aux = rotate(aux, radians(localAngle), dvec3(1.0, 0.0, 0.0));
+		aux = rotate(aux, radians(lightAngle), dvec3(1.0, 0.0, 0.0));
 		aux = scale(aux, dvec3(0.1, 0.1, 0.1));
 		mModelMat = aux;
+
+		//sirena->setPosDir(fvec3(0.0, rad * cos(radians(lightAngle)) , rad * sin(radians(lightAngle))));
+		//sirena->setSpot(fvec3(sin(radians(lightAngle)),/* -cos(radians(lightAngle))*/-1.0, sin(radians(lightAngle))), 30.0, 0.5);
+		//if (lightAngle >= 180) lightAngle = 0;
 		// mover la sirena
-		if (sirena != nullptr) {
-			translation = dvec3(0.0,  rad * cos(radians(globalAngle)) + posSirena_* cos(radians(globalAngle)) , rad * sin(radians(globalAngle)) + posSirena_ * sin(radians(globalAngle)));
-			sirena->setPosDir(translation);
-			//translation.x = -5.0;
-			sirena->setSpot( -translation, 10.0, 0.5);
-		}
+	//	if (sirena != nullptr) {
+			//glm::f64 x=translation.x += 10;
+			//translation = dvec3(0.0,  rad * cos(radians(globalAngle)) + posSirena_* cos(radians(globalAngle)) , rad * sin(radians(globalAngle)) + posSirena_ * sin(radians(globalAngle)));
+			//dvec3 t2= translation;
+			//if(t2.x < -45) t2.x = -45;
+
+				// if (t2.y < -200) t2.y = -200;
+				 
+			
+
+			//sirena->setSpot( -t2, 10.0, 0.5);
+			
+		//}
 
 		globalAngle += 2;//increase globalAngle
-		localAngle += 2;//increase localAngle 
+		
+		localAngle += 0.2;//increase localAngle 
+		lightAngle += 0.2;
+	}
+}
+
+void SirenCube::render(glm::dmat4 const& modelViewMat) const
+{
+	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+
+	upload(aMat);
+	sirena->upload(aMat);
+
+
+	for (Abs_Entity* el : gObjects) {
+		el->render(aMat);
 	}
 }

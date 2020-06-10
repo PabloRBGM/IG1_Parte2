@@ -291,19 +291,23 @@ private:
 
 class SirenCube : public CompoundEntity {
 public:
-	explicit SirenCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2, GLdouble rr = 120, GLdouble=15);
+	explicit SirenCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2, GLdouble rr = 120);
 	~SirenCube() { };
 
 	void update() override;
+	void render(glm::dmat4 const& modelViewMat) const override;
 	void move() { isMoving = !isMoving; }
-	void setLight(SpotLight* l) { sirena = l; }
+	void setLight(SpotLight* l) { sirena = l; sirena->setSpot(glm::fvec3(0.0, -1.0, 0.0), 30.0, 0.5); }
+	SpotLight* getLight() { return sirena; }
 
 private:
 	SpotLight* sirena = nullptr;
 	GLdouble rad = 0.0;
-	GLdouble posSirena_ = 0.0;
+	GLdouble offset_ = 0.0;
 	GLdouble globalAngle = 0.0;
 	GLdouble localAngle = 0.0;
+	GLdouble lightAngle = 0.0;
+
 	bool isMoving = false;
 };
 

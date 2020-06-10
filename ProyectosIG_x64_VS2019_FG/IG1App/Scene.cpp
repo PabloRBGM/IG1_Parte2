@@ -138,9 +138,11 @@ void Scene::init()
 		sirenCube->setModelMat(mAuxSCube);
 
 		//foco en la misma posición que el avion
-		sirena->setPosDir(fvec3(0, 145, 0));
-		sirena->setSpot(glm::fvec3(0.0, -1.0,0.0), 10.0, 0.5);
-
+		//sirena->setPosDir(fvec3(0, 145, 0));
+		//sirena->setSpot(glm::fvec3(0.0, -1.0,0.0), 10.0, 0.5);
+		//sirena = sirenCube->getLight();
+		//sirena->setSpot(fvec3(0, -1, 0),30.0,0);
+		//sirena->disable();
 		sirenCube->setLight(sirena);
 		gObjects.push_back(sirenCube);
 
@@ -422,6 +424,6 @@ void Scene::setLights()
 	sirena->setAmb(glm::fvec4(0, 0, 0, 1));
 	sirena->setDiff(glm::fvec4(1, 1, 1, 1));
 	sirena->setSpec(glm::fvec4(0.5, 0.5, 0.5, 1));
-	sirena->setSpot(glm::fvec3(0.0, 0.0, 1), 20.0, 0.5);
+	sirena->setSpot(glm::fvec3(50.0, -1, 0.0), 20.0, 0.5);
 	sirena->disable();
 }
