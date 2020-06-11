@@ -576,6 +576,7 @@ void Avion::update()
 	}
 }
 
+// Extra
 Grid::Grid(GLdouble lado, GLuint nDiv)
 {
 	//mMesh = IndexMesh::generateGrid(lado, nDiv);
@@ -592,7 +593,7 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 		upload(aMat);
 		//glEnable(GL_COLOR_MATERIAL);
 		//glColor3d(mColor.r, mColor.g, mColor.b);
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);	// para ver las lineas del grid
 		glCullFace(GL_BACK);
 		glPolygonMode(GL_BACK, GL_FILL);
 
@@ -602,11 +603,10 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 		//glDisable(GL_COLOR_MATERIAL);
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glDisable(GL_CULL_FACE);
-
-
 	}
 }
 
+// Rotamos y trasladamos cada cara para que se vea como en el enunciado
 GridCube::GridCube(GLdouble lado, GLuint nDiv, Texture* t1, Texture* t2)
 {
 	GLdouble mitad = lado / 2;
@@ -710,10 +710,9 @@ void SirenCube::render(glm::dmat4 const& modelViewMat) const
 
 	upload(aMat);
 
-	//esto hace que el angulo de rotacion y translacion tengan que ser el mismo
+	// cargamos la luz de forma local al objeto
 	if(sirena!=nullptr)
 		sirena->upload(aMat);
-
 
 	for (Abs_Entity* el : gObjects) {
 		el->render(aMat);

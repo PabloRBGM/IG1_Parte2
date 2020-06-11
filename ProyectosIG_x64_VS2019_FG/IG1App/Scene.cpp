@@ -142,9 +142,9 @@ void Scene::init()
 		gTextures.push_back(new Texture());
 		gTextures[1]->load("../Bmps/stones.bmp");
 
-		sirenCube = new SirenCube(200, 100, gTextures[0], gTextures[1], 130.0);
+		sirenCube = new SirenCube(200, 100, gTextures[0], gTextures[1], 120.0);
 		glm::dmat4 mAuxSCube = sirenCube->modelMat();
-		mAuxSCube = translate(mAuxSCube, dvec3(0, 130, 0));
+		mAuxSCube = translate(mAuxSCube, dvec3(0, 120, 0));
 		mAuxSCube = scale(mAuxSCube, dvec3(0.1, 0.1, 0.1));
 		sirenCube->setModelMat(mAuxSCube);
 

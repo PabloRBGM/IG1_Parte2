@@ -271,6 +271,7 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 
+// Extra
 class Grid : public EntityWithIndexMesh {
 public:
 	explicit Grid(GLdouble lado, GLuint nDiv);

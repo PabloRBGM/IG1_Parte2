@@ -450,7 +450,7 @@ IndexMesh* IndexMesh::generateGrid(GLdouble lado, GLuint nDiv)
     IndexMesh* indexMesh = new IndexMesh();
     indexMesh->mPrimitive = GL_TRIANGLES;
 
-    GLuint vPerfil = nDiv + 1;
+    GLuint vPerfil = nDiv + 1;  // Numero de vertices de un perfil
     indexMesh->mNumVertices = vPerfil * vPerfil;
     indexMesh->vVertices.reserve(indexMesh->mNumVertices);
     indexMesh->vColors.reserve(indexMesh->mNumVertices);
@@ -474,19 +474,12 @@ IndexMesh* IndexMesh::generateGrid(GLdouble lado, GLuint nDiv)
         indexMesh->vVertices.emplace_back(vertices[i]);
     }
 
-    indexMesh->nNumIndices = 6 * nDiv * nDiv;
+    indexMesh->nNumIndices = 6 * nDiv * nDiv;      // Hay 6 indices por cuadrado y hay nDiv * nDiv cuadrados 
     indexMesh->vIndices = new GLuint[indexMesh->nNumIndices];
     int indiceMayor = 0;
     for (int i = 0; i < nDiv; i++) {
         for (int j = 0; j < nDiv; j++) {
             int indice = i * vPerfil + j ;
-            GLuint aux = indice;
-
-            GLuint aux2 = (indice + vPerfil) % (vPerfil * vPerfil);
-
-            GLuint aux3 = (indice + vPerfil + 1) % (vPerfil * vPerfil);
-
-            GLuint aux4 = indice + 1;
              
             indexMesh->vIndices[indiceMayor] = indice;
             indiceMayor++;
@@ -513,8 +506,9 @@ IndexMesh* IndexMesh::generateGridTex(GLdouble lado, GLuint nDiv)
     IndexMesh* mesh = generateGrid(lado, nDiv);
 
     mesh->vTexCoords.reserve(mesh->mNumVertices);
-    GLdouble aux = (GLdouble)nDiv;
+    GLdouble aux = (GLdouble)nDiv;  //Para evitar castings en el bucle
 
+    // La textura ocupa toda la cara, no se repite en cada cuadrado
     for (int i = 0; i < nDiv + 1; i++) {
         for (int j = 0; j < nDiv + 1; j++) {
             mesh->vTexCoords.emplace_back(i / aux, j / aux);
