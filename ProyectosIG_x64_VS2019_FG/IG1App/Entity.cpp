@@ -562,7 +562,7 @@ void Avion::update()
 		dmat4 aux = mModelMat;
 		dvec3 translation = dvec3(0.0, cos(radians(globalAngle)), sin(radians(globalAngle)));
 		aux = translate(mI, rad * translation); //move to relPos
-		aux = rotate(aux, radians(localAngle), dvec3(1.0, 0.0, 0.0));//rotate himself.
+		aux = rotate(aux, radians(globalAngle), dvec3(1.0, 0.0, 0.0));//rotate himself.
 		aux = scale(aux, dvec3(0.2, 0.2, 0.2));
 		mModelMat = aux;
 		// mover el foco
@@ -573,12 +573,12 @@ void Avion::update()
 
 
 		globalAngle += 2;//increase globalAngle
-		localAngle += 2;//increase localAngle 
 	}
 }
 
 Grid::Grid(GLdouble lado, GLuint nDiv)
 {
+	//mMesh = IndexMesh::generateGrid(lado, nDiv);
 	mMesh = IndexMesh::generateGridTex(lado, nDiv);
 }
 

@@ -14,8 +14,8 @@ void Scene::init()
 	glClearColor(0.7, 0.8, 0.9, 0.0);
 	//-----------------------------------------------------------------------------------------------
 	//Escena 3D, Entidades Cuadricas
-	if (mId == 1) {
-	
+	switch (mId) {
+	case 1: {
 		Sphere* esfera = new Sphere(100.0);
 		esfera->setColor({ 1.0,0.3,0.0 });
 		gObjects.push_back(esfera);
@@ -49,17 +49,18 @@ void Scene::init()
 		partDisco->setModelMat(mAuxPartDisk);
 		partDisco->setColor({ 0.0,1.0,0.0 });
 		gObjects.push_back(partDisco);
+		break;
 	}
-	else if (mId == 2) {
+	case 2: {
 		/*AnilloCuadrado* anillo = new AnilloCuadrado();
 		gObjects.push_back(anillo);*/
 		EntityWithIndexMesh* cubo = new Cubo();
 		cubo->setmColor(dvec4(1.0, 0.0, 0.0, 1.0));
 		gObjects.push_back(cubo);
-
+		break;
 	}
-	else if (mId == 3) {
-		CompoundEntity*  helices = new CompoundEntity();
+	case 3: {
+		CompoundEntity* helices = new CompoundEntity();
 		Cylinder* conoDer = new Cylinder(15.0, 10.0, 50.0);
 		glm::dmat4 mAuxC2 = conoDer->modelMat();
 		mAuxC2 = translate(mAuxC2, dvec3(0, 0, 115));
@@ -89,7 +90,7 @@ void Scene::init()
 		avion->addEntity(chasis);
 		Cubo* cubo = new CuboCooper();
 		glm::dmat4 mAuxCubo = cubo->modelMat();
-		mAuxCubo = scale(mAuxCubo, dvec3(3.5,0.3, 1.5));
+		mAuxCubo = scale(mAuxCubo, dvec3(3.5, 0.3, 1.5));
 		cubo->setModelMat(mAuxCubo);
 		//cubo->setmColor({ 0.0, 1.0 ,0.0, 1.0 });
 		glm::dmat4 mAuxAvion = avion->modelMat();
@@ -97,7 +98,7 @@ void Scene::init()
 		mAuxAvion = scale(mAuxAvion, dvec3(0.2, 0.2, 0.2));
 		avion->setModelMat(mAuxAvion);
 		avion->addEntity(cubo);
-		
+
 		gObjects.push_back(avion);
 		//foco en la misma posición que el avion
 		foco->setPosDir(fvec3(0, 150, 0));
@@ -112,7 +113,7 @@ void Scene::init()
 		//goldMat->setCopper();
 		esfera->setMaterial(goldMat);//pone material a la esfera
 		gObjects.push_back(esfera);
-		
+
 		//para ver que se ven igual las dos eferas, con Sphere y con Esfera
 		/*Sphere* sphere2 = new Sphere(100.0);
 		sphere2->setColor(fvec3(0.498, 1.0, 0.831));
@@ -121,9 +122,20 @@ void Scene::init()
 		mAuxC4 = translate(mAuxC4, dvec3(200, 0, 0));
 		sphere2->setModelMat(mAuxC4);
 		gObjects.push_back(sphere2);*/
+		break;
 	}
-	else if (mId == 4) {	//Extra
+	case 4: {	// Extra
+		//Texturas
+		gTextures.push_back(new Texture());
+		gTextures[0]->load("../Bmps/checker.bmp");
+		gTextures.push_back(new Texture());
+		gTextures[1]->load("../Bmps/stones.bmp");
 
+		GridCube* gridCube = new GridCube(200, 100, gTextures[0], gTextures[1]);
+		gObjects.push_back(gridCube);
+		break;
+	}
+	case 5: {	// Extra
 		//Texturas
 		gTextures.push_back(new Texture());
 		gTextures[0]->load("../Bmps/checker.bmp");
@@ -133,36 +145,21 @@ void Scene::init()
 		sirenCube = new SirenCube(200, 100, gTextures[0], gTextures[1], 130.0);
 		glm::dmat4 mAuxSCube = sirenCube->modelMat();
 		mAuxSCube = translate(mAuxSCube, dvec3(0, 130, 0));
-		//mAuxSCube = rotate(mAuxSCube, radians(180.0), dvec3(1, 0, 0));
 		mAuxSCube = scale(mAuxSCube, dvec3(0.1, 0.1, 0.1));
 		sirenCube->setModelMat(mAuxSCube);
 
-		//foco en la misma posición que el avion
-		//sirena->setPosDir(fvec3(0, 145, 0));
-		//sirena->setSpot(glm::fvec3(0.0, -1.0,0.0), 10.0, 0.5);
-		//sirena = sirenCube->getLight();
-		//sirena->setSpot(fvec3(0, -1, 0),30.0,0);
-		//sirena->disable();
 		sirenCube->setLight(sirena);
 		gObjects.push_back(sirenCube);
 
 
 		Esfera* esfera = new Esfera(100.0, 200, 200);
 		esfera->setmColor(dvec4(0.0, 1.0, 1.0, 1.0));
-		//Material* goldMat = new Material();
-		//goldMat->setGold();
-		//goldMat->setCopper();
-		//esfera->setMaterial(goldMat);//pone material a la esfera
-		gObjects.push_back(esfera);
-		/*Grid* grid = new Grid(200, 1);
-		grid->setmColor({ 0.0,0.0,1.0,1.0 });
-		glm::dmat4 mAux = grid->modelMat();
 
-		mAux = translate(mAux, dvec3(-100, 0, -100));
-		mAux = rotate(mAux, radians(90.0), dvec3(1, 0, 0));
-		grid->setModelMat(mAux);
-		grid->setTexture(gTextures[0]);
-		gObjects.push_back(grid);*/
+		gObjects.push_back(esfera);
+		break;
+	}
+	default:
+		break;
 	}
 }
 
@@ -198,6 +195,9 @@ void Scene::free()
 		delete el;  el = nullptr;
 	}
 	gObjects.clear();
+	// Poner los objetos en null
+	sirenCube = nullptr;
+	avion = nullptr;
 
 	for (Abs_Entity* tel : translucentgObjects)
 	{
@@ -211,7 +211,7 @@ void Scene::free()
 	}
 	gTextures.clear();
 
-	//delete lights
+	// Delete lights
 	delete directionalLight;
 	delete positionalLight;
 	delete spotSceneLight;
@@ -415,7 +415,7 @@ void Scene::setLights()
 	foco_A->setAmb(glm::fvec4(0, 0, 0, 1));
 	foco_A->setDiff(glm::fvec4(1, 1, 1, 1));
 	foco_A->setSpec(glm::fvec4(0.5, 0.5, 0.5, 1));
-	foco_A->setSpot(glm::fvec3(0.0, 0.0, -1.0), 15.0, 0.5);
+	foco_A->setSpot(glm::fvec3(0.0, 0.0, -1.0), 20.0, 10.0);
 	foco_A->disable();
 
 	//Extra

@@ -241,7 +241,6 @@ protected:
 	CompoundEntity* helices = nullptr;
 	GLdouble rad = 0.0;
 	GLdouble globalAngle = 0.0;
-	GLdouble localAngle = 0.0;
 	GLdouble hecAngle = 0.0;
 	bool isMoving = false;
 };
@@ -305,7 +304,6 @@ private:
 	GLdouble rad = 0.0;
 	GLdouble offset_ = 0.0;
 	GLdouble globalAngle = 0.0;
-	GLdouble localAngle = 0.0;
 	GLdouble lightAngle = 0.0;
 
 	bool isMoving = false;
